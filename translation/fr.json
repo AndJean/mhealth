@@ -1,0 +1,15 @@
+{
+  "onBoarding": {
+    "screen1": {
+      "title": "Consultez uniquement un médecin en qui vous avez confiance"
+    },
+
+    "screen2": {
+      "title": "Accéder à des milliers de médecins de confiance instantanément"
+    },
+
+    "screen3": {
+      "title": "Prendre un rendez-vous en ligne et en personne avec un médecin"
+    }
+  }
+}

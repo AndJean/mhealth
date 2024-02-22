@@ -1,0 +1,43 @@
+{
+  "onBoarding": {
+    "screen1": {
+      "title": "Consult only with Doctor you trust"
+    },
+    "screen2": {
+      "title": "Access thousand of trusted Doctors instantly"
+    },
+    "screen3": {
+      "title": "Book on online in-person appointment with a Doctor"
+    }
+  },
+  "welcome": {
+    "title": "Let’s get Started!",
+    "subtitle": "Login to enjoy the features we’ve provided, and stay healthy!",
+    "loginButton": "Login",
+    "RegisterButton": "Sign Up"
+  },
+  "register": {
+    "title": "Open an account",
+    "subtitle": "Fill in all fields before continuing",
+    "field1": {
+      "label": "Full name",
+      "placeholder": "Enter your Full name"
+    },
+    "field2": {
+      "label": "Email",
+      "placeholder": "Enter your email"
+    },
+    "field3": {
+      "label": "Phone",
+      "placeholder": "Enter your phone number"
+    },
+    "field4": {
+      "label": "Password",
+      "placeholder": "Choose a password"
+    },
+    "nextButton": "Next",
+    "RegisterButton": "Sign Up",
+    "loginText": "Already have an account?",
+    "loginButton": "Login"
+  }
+}

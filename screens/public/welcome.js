@@ -51,6 +51,7 @@ function Welcome() {
 
       {/* Boutton LogIn */}
       <TouchableOpacity
+        onPress={() => navigation.navigate("login")}
         style={{
           backgroundColor: color.base,
           width: "100%",
@@ -68,7 +69,7 @@ function Welcome() {
 
       {/* Boutton SignUp */}
       <TouchableOpacity
-        onPress={() => navigation.navigate("Register")}
+        onPress={() => navigation.navigate("register_step1")}
         style={{
           backgroundColor: "white",
           width: "100%",

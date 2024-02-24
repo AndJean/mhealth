@@ -18,6 +18,7 @@
   },
   "register": {
     "title": "Open an account",
+    "title2": "Others informations",
     "subtitle": "Fill in all fields before continuing",
     "field1": {
       "label": "Full name",
@@ -35,9 +36,72 @@
       "label": "Password",
       "placeholder": "Choose a password"
     },
+    "field5": {
+      "label": "Gender",
+      "choice1": "Male",
+      "choice2": "Female"
+    },
+    "field6": {
+      "label": "Date of birth",
+      "placeholder": "Enter your date of birth"
+    },
+    "field7": {
+      "label": "Address",
+      "placeholder": "Enter your address"
+    },
+    "field8": {
+      "label": "PostCode",
+      "placeholder": "Enter your postcode"
+    },
+    "success_modal": {
+      "title": "Hey, One more step!",
+      "text": "A confirmation email has been sent to you to complete your registration.",
+      "resend_button": "Resend a confirmation email"
+    },
+    "error_modal": {
+      "title": "An error has occured!"
+    },
+    "errors": {
+      "invalid_value": "Invalid value",
+      "invalid_password": "Your password must contain at least 08 characters, a uppercase letter and a number",
+      "existing_email": "An account already exists with this address",
+      "existing_phone": "An account already exists with this phone number",
+      "unknown_error": "An unknown error has occured. Please try again.",
+      "missing_value": "Missing value"
+    },
     "nextButton": "Next",
-    "RegisterButton": "Sign Up",
+    "registerButton": "Sign Up",
     "loginText": "Already have an account?",
     "loginButton": "Login"
+  },
+  "login": {
+    "title": "Login",
+    "subtitle": "Fill in all fields before continuing",
+    "field1": {
+      "label": "Email",
+      "placeholder": "Enter your your email"
+    },
+    "field2": {
+      "label": "Password",
+      "placeholder": "Enter your Password"
+    },
+    "loginButton": "Login",
+    "registerButton": "Sign Up",
+    "registerText": "No account yet?",
+    "resetText": "Forgot password?",
+    "errors": {
+      "invalid_value": "Invalid value",
+      "no_verified_email": "Please check your email address",
+      "invalid_credentials": "Invalid login credentials",
+      "unknown_error": "An unknown error has occured. Please try again.",
+      "missing_value": "Missing value"
+    }
+  },
+
+  "tabBar": {
+    "screen1": "Home",
+    "screen2": "Consultations",
+    "screen3": "Messages",
+    "screen4": "Profile"
   }
 }

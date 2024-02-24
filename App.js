@@ -9,9 +9,12 @@ import {
 } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Splash from "./screens/public/splash";
+import Login from "./screens/public/login";
 import OnBoarding from "./screens/public/onBoarding";
 import Welcome from "./screens/public/welcome";
-import Register from "./screens/public/register";
+import Register_step1 from "./screens/public/register/step1";
+import Register_step2 from "./screens/public/register/step2";
+import Tab from "./screens/auth/tab";
 import "./i18next";
 
 const Stack = createStackNavigator();
@@ -19,7 +22,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Splash"
           component={Splash}
           options={{ headerShown: false }}
@@ -28,7 +31,7 @@ export default function App() {
           name="onBoarding"
           component={OnBoarding}
           options={{ headerShown: false }}
-        />*/}
+        />
         <Stack.Screen
           name="welcome"
           component={Welcome}
@@ -37,8 +40,32 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Register"
-          component={Register}
+          name="register_step1"
+          component={Register_step1}
+          options={{
+            headerShown: false,
+            ...TransitionPresets.SlideFromRightIOS,
+          }}
+        />
+        <Stack.Screen
+          name="register_step2"
+          component={Register_step2}
+          options={{
+            headerShown: false,
+            ...TransitionPresets.SlideFromRightIOS,
+          }}
+        />
+        <Stack.Screen
+          name="login"
+          component={Login}
+          options={{
+            headerShown: false,
+            ...TransitionPresets.SlideFromRightIOS,
+          }}
+        />
+        <Stack.Screen
+          name="main"
+          component={Tab}
           options={{
             headerShown: false,
             ...TransitionPresets.SlideFromRightIOS,

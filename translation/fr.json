@@ -1,15 +1,106 @@
 {
   "onBoarding": {
     "screen1": {
-      "title": "Consultez uniquement un médecin en qui vous avez confiance"
+      "title": "Consultez uniquement avec un médecin en qui vous avez confiance "
     },
-
     "screen2": {
-      "title": "Accéder à des milliers de médecins de confiance instantanément"
+      "title": "Accédez instantanément à des milliers de médecins de confiance"
     },
-
     "screen3": {
-      "title": "Prendre un rendez-vous en ligne et en personne avec un médecin"
+      "title": "Prenez rendez-vous en ligne pour une consultation en personne avec un médecin"
     }
+  },
+  "welcome": {
+    "title": "Commençons !",
+    "subtitle": "Connectez-vous pour profiter des fonctionnalités que nous avons fournies et restez en bonne santé !",
+    "loginButton": "Connexion",
+    "RegisterButton": "Inscription"
+  },
+  "register": {
+    "title": "Ouvrir un compte",
+    "title2": "Autres informations",
+    "subtitle": "Remplissez tous les champs avant de continuer",
+    "field1": {
+      "label": "Nom complet",
+      "placeholder": "Entrez votre nom complet"
+    },
+    "field2": {
+      "label": "E-mail",
+      "placeholder": "Entrez votre e-mail"
+    },
+    "field3": {
+      "label": "Téléphone",
+      "placeholder": "Entrez votre numéro de téléphone"
+    },
+    "field4": {
+      "label": "Mot de passe",
+      "placeholder": "Choisissez un mot de passe"
+    },
+    "field5": {
+      "label": "Sexe",
+      "choice1": "Homme",
+      "choice2": "Femme"
+    },
+    "field6": {
+      "label": "Date de naissance",
+      "placeholder": "Entrez votre date de naissance"
+    },
+    "field7": {
+      "label": "Adresse",
+      "placeholder": "Entrez votre adresse"
+    },
+    "field8": {
+      "label": "Code postal",
+      "placeholder": "Entrez votre code postal"
+    },
+    "success_modal": {
+      "title": "Encore une étape !",
+      "text": "Un e-mail de confirmation vous a été envoyé pour finaliser votre inscription.",
+      "resend_button": "Renvoyer un e-mail de confirmation"
+    },
+    "error_modal": {
+      "title": "Une erreur s'est produite !"
+    },
+    "errors": {
+      "invalid_value": "Valeur non valide",
+      "invalid_password": "Votre mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre",
+      "existing_email": "Un compte existe déjà avec cette adresse e-mail",
+      "existing_phone": "Un compte existe déjà avec ce numéro de téléphone",
+      "unknown_error": "Une erreur inconnue s'est produite. Veuillez réessayer.",
+      "missing_value": "Valeur manquante"
+    },
+    "nextButton": "Suivant",
+    "registerButton": "Inscription",
+    "loginText": "Vous avez déjà un compte ?",
+    "loginButton": "Connexion"
+  },
+  "login": {
+    "title": "Connexion",
+    "subtitle": "Remplissez tous les champs avant de continuer",
+    "field1": {
+      "label": "E-mail",
+      "placeholder": "Entrez votre e-mail"
+    },
+    "field2": {
+      "label": "Mot de passe",
+      "placeholder": "Entrez votre mot de passe"
+    },
+    "loginButton": "Connexion",
+    "registerButton": "Inscription",
+    "registerText": "Pas encore de compte ?",
+    "resetText": "Mot de passe oublié ?",
+    "errors": {
+      "invalid_value": "Valeur non valide",
+      "no_verified_email": "Veuillez vérifier votre adresse e-mail",
+      "invalid_credentials": "Identifiants de connexion non valides",
+      "unknown_error": "Une erreur inconnue s'est produite. Veuillez réessayer.",
+      "missing_value": "Valeur manquante"
+    }
+  },
+  "tabBar": {
+    "screen1": "Accueil",
+    "screen2": "Consultations",
+    "screen3": "Messages",
+    "screen4": "Profil"
   }
 }

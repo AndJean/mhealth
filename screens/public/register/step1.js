@@ -9,37 +9,38 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
-  ActivityIndicator,
-  Dimensions,
 } from "react-native";
-import color from "../../constants/colors";
+import color from "../../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
-import { supabase } from "../../supabase";
 import validator from "validator";
 import { useState } from "react";
-import { RadioButton } from "react-native-radio-buttons-group";
 
-function Login({ route }) {
+function Register_step1() {
   const { t } = useTranslation(); //used to transate the app
   const navigation = useNavigation(); //used to navigate between screens
   const [loading, setLoading] = useState(false); //used to set the loading state
-  const [showPassword, setShowPassword] = useState(false);
   const [field, setField] = useState({
+    full_name: null,
     email: null,
+    phone: null,
     password: null,
   }); //a state to store all the values
   const [errors, setErrors] = useState({
+    full_name: null, //if null there is no error, if !== null there is an error
     email: null,
+    phone: null,
     password: null,
-    unknown: null,
   }); //a state to store all the form errors
+  const [showPassword, setShowPassword] = useState(false);
 
   //a function called whenever an input value is modified
   function onChange(name) {
     //reset all the errors
     setErrors({
+      full_name: null,
       email: null,
       password: null,
+      phone: null,
     });
   }
 
@@ -48,12 +49,30 @@ function Login({ route }) {
     let hasError = false;
     //first, reset all the errors
     setErrors({
+      full_name: null,
       email: null,
       password: null,
-      unknown: null,
+      phone: null,
     });
 
-    setLoading(true);
+    //full name validation
+    //check if the full name exist
+    if (field.full_name) {
+      if (!validator.isAlpha(field.full_name.replace(/\s/g, ""))) {
+        //check if the given full name contain only letters
+        hasError = true;
+        setErrors((prev) => ({
+          ...prev,
+          full_name: t("register.errors.invalid_value"),
+        }));
+      }
+    } else {
+      hasError = true;
+      setErrors((prev) => ({
+        ...prev,
+        full_name: t("register.errors.missing_value"),
+      }));
+    }
 
     //email validation
     //check if the email exist
@@ -63,14 +82,33 @@ function Login({ route }) {
         hasError = true;
         setErrors((prev) => ({
           ...prev,
-          email: t("login.errors.invalid_value"),
+          email: t("register.errors.invalid_value"),
         }));
       }
     } else {
       hasError = true;
       setErrors((prev) => ({
         ...prev,
-        email: t("login.errors.missing_value"),
+        email: t("register.errors.missing_value"),
+      }));
+    }
+
+    //phone validation
+    //check if the phone number exist
+    if (field.phone) {
+      if (!validator.isMobilePhone(field.phone.trim(), "en-GB")) {
+        //check if the given phone number is correct
+        hasError = true;
+        setErrors((prev) => ({
+          ...prev,
+          phone: t("register.errors.invalid_value"),
+        }));
+      }
+    } else {
+      hasError = true;
+      setErrors((prev) => ({
+        ...prev,
+        phone: t("register.errors.missing_value"),
       }));
     }
 
@@ -82,41 +120,31 @@ function Login({ route }) {
         hasError = true;
         setErrors((prev) => ({
           ...prev,
-          password: t("login.errors.invalid_value"),
+          password: t("register.errors.invalid_value"),
+        }));
+      } else if (
+        !validator.isStrongPassword(field.password.trim(), { minSymbols: 0 })
+      ) {
+        //else check if the given password is strong
+        hasError = true;
+        setErrors((prev) => ({
+          ...prev,
+          password: t("register.errors.invalid_password"),
         }));
       }
     } else {
       hasError = true;
       setErrors((prev) => ({
         ...prev,
-        password: t("login.errors.missing_value"),
+        password: t("register.errors.missing_value"),
       }));
     }
 
     //if there is no errors
     if (!hasError) {
-      const loginUser = await supabase.auth.signInWithPassword({
-        email: field.email,
-        password: field.password,
-      });
-      if (loginUser.error) {
-        if (loginUser.error.status === 400) {
-          setErrors((prev) => ({
-            ...prev,
-            unknown: t("login.errors.invalid_credentials"),
-          }));
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            unknown: t("login.errors.unknown_error"),
-          }));
-        }
-      } else {
-        //success
-        navigation.replace("main");
-      }
+      //navigate
+      navigation.navigate("register_step2", { field });
     }
-    setLoading(false);
   }
 
   return (
@@ -142,10 +170,10 @@ function Login({ route }) {
 
       <View style={{ paddingHorizontal: 25 }}>
         <Text style={{ fontSize: 27, fontWeight: "bold", marginTop: 35 }}>
-          {t("login.title")}
+          {t("register.title")}
         </Text>
         <Text style={{ fontSize: 16, marginTop: 8, opacity: 0.7 }}>
-          {t("login.subtitle")}
+          {t("register.subtitle")}
         </Text>
       </View>
 
@@ -154,10 +182,10 @@ function Login({ route }) {
         <ScrollView
           contentContainerStyle={{ paddingHorizontal: 25, paddingBottom: 20 }}
         >
-          {/*email input*/}
-          <View style={{ marginTop: 15 }}>
+          {/*full name input*/}
+          <View>
             <Text style={{ fontSize: 15, paddingLeft: 10 }}>
-              {t("login.field1.label")}
+              {t("register.field1.label")}
             </Text>
             <View
               style={{
@@ -170,41 +198,131 @@ function Login({ route }) {
                 flexDirection: "row",
                 alignItems: "center",
                 paddingHorizontal: 16,
-                borderWidth: errors.email || (errors.unknown && 1),
-                borderColor: errors.email || (errors.unknown && "orangered"),
+                borderWidth: errors.full_name && 1,
+                borderColor: errors.full_name && "orangered",
+              }}
+            >
+              <Ionicons name="people-outline" size={23} color={color.base} />
+              <TextInput
+                placeholder={t("register.field1.placeholder")}
+                value={field.full_name}
+                onChangeText={(text) =>
+                  setField((prev) => ({ ...prev, full_name: text }))
+                }
+                onChange={() => onChange("full_name")}
+                style={{ marginLeft: 20, width: "73%" }}
+              />
+            </View>
+            {errors.full_name && (
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingLeft: 10,
+                  color: "orangered",
+                  marginTop: 10,
+                }}
+              >
+                {errors.full_name}
+              </Text>
+            )}
+          </View>
+
+          {/*email input*/}
+          <View style={{ marginTop: 15 }}>
+            <Text style={{ fontSize: 15, paddingLeft: 10 }}>
+              {t("register.field2.label")}
+            </Text>
+            <View
+              style={{
+                backgroundColor: color.input,
+                width: "100%",
+                height: 55,
+                borderRadius: 100,
+                marginTop: 8,
+                elevation: 9,
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: 16,
+                borderWidth: errors.email && 1,
+                borderColor: errors.email && "orangered",
               }}
             >
               <Ionicons name="at-outline" size={23} color={color.base} />
               <TextInput
-                placeholder={t("login.field1.placeholder")}
+                placeholder={t("register.field2.placeholder")}
                 value={field.email}
                 onChangeText={(text) =>
                   setField((prev) => ({ ...prev, email: text }))
                 }
                 onChange={() => onChange("email")}
-                keyboardType="email-address"
                 style={{ marginLeft: 20, width: "73%" }}
+                keyboardType="email-address"
               />
             </View>
-            {errors.email ||
-              (errors.unknown && (
-                <Text
-                  style={{
-                    fontSize: 14,
-                    paddingLeft: 10,
-                    color: "orangered",
-                    marginTop: 10,
-                  }}
-                >
-                  {errors.email || errors.unknown}
-                </Text>
-              ))}
+            {errors.email && (
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingLeft: 10,
+                  color: "orangered",
+                  marginTop: 10,
+                }}
+              >
+                {errors.email}
+              </Text>
+            )}
+          </View>
+
+          {/*phone input*/}
+          <View style={{ marginTop: 15 }}>
+            <Text style={{ fontSize: 15, paddingLeft: 10 }}>
+              {t("register.field3.label")}
+            </Text>
+            <View
+              style={{
+                backgroundColor: color.input,
+                width: "100%",
+                height: 55,
+                borderRadius: 100,
+                marginTop: 8,
+                elevation: 9,
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: 16,
+                borderWidth: errors.phone && 1,
+                borderColor: errors.phone && "orangered",
+              }}
+            >
+              <Ionicons name="call-outline" size={23} color={color.base} />
+              <TextInput
+                placeholder={t("register.field3.placeholder")}
+                value={field.phone}
+                onChangeText={(text) =>
+                  setField((prev) => ({ ...prev, phone: text }))
+                }
+                onChange={() => onChange("phone")}
+                style={{ marginLeft: 20, width: "73%" }}
+                keyboardType="phone-pad"
+              />
+            </View>
+            {errors.phone && (
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingLeft: 10,
+                  color: "orangered",
+                  marginTop: 10,
+                }}
+              >
+                {errors.phone}
+              </Text>
+            )}
           </View>
 
           {/*password input*/}
           <View style={{ marginTop: 15 }}>
             <Text style={{ fontSize: 15, paddingLeft: 10 }}>
-              {t("login.field2.label")}
+              {t("register.field4.label")}
             </Text>
             <View
               style={{
@@ -224,7 +342,7 @@ function Login({ route }) {
               <Ionicons name="key-outline" size={23} color={color.base} />
               <TextInput
                 secureTextEntry={showPassword}
-                placeholder={t("login.field2.placeholder")}
+                placeholder={t("register.field4.placeholder")}
                 value={field.password}
                 onChangeText={(text) =>
                   setField((prev) => ({ ...prev, password: text }))
@@ -264,9 +382,8 @@ function Login({ route }) {
 
           {/*bottom container*/}
           <View>
-            {/* Boutton login */}
+            {/* Boutton register */}
             <TouchableOpacity
-              disabled={loading}
               onPress={() => onSubmit()}
               style={{
                 backgroundColor: color.base,
@@ -282,11 +399,7 @@ function Login({ route }) {
               <Text
                 style={{ color: "white", fontSize: 17, fontWeight: "bold" }}
               >
-                {loading ? (
-                  <ActivityIndicator size="small" color="white" />
-                ) : (
-                  t("login.loginButton")
-                )}
+                {t("register.nextButton")}
               </Text>
             </TouchableOpacity>
 
@@ -299,13 +412,10 @@ function Login({ route }) {
                 justifyContent: "center",
               }}
             >
-              <Text>{t("login.registerText")}</Text>
-              <TouchableOpacity
-                onPress={() => navigation.replace("register_step1")}
-                style={{ marginLeft: 8 }}
-              >
+              <Text>{t("register.loginText")}</Text>
+              <TouchableOpacity style={{ marginLeft: 8 }}>
                 <Text style={{ color: color.base, fontWeight: "bold" }}>
-                  {t("login.registerButton")}
+                  {t("register.loginButton")}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -316,4 +426,4 @@ function Login({ route }) {
   );
 }
 
-export default Login;
+export default Register_step1;

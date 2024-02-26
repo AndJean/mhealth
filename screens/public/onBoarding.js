@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import color from "../../constants/colors";
 import { useTranslation } from "react-i18next";
@@ -34,6 +34,7 @@ function OnBoarding() {
         paddingHorizontal: 25,
       }}
     >
+      <StatusBar barStyle='dark-content' translucent backgroundColor='transparent' />
       <TouchableOpacity
         onPress={() => navigation.replace("welcome")}
         style={{ alignSelf: "flex-end" }}

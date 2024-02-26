@@ -19,7 +19,10 @@
   "register": {
     "title": "Open an account",
     "title2": "Others informations",
+    "title3": "Patient informations",
+    "title4": "Doctor informations",
     "subtitle": "Fill in all fields before continuing",
+    "subtitle2": "Can you confirm which type of user you are?",
     "field1": {
       "label": "Full name",
       "placeholder": "Enter your Full name"
@@ -53,6 +56,28 @@
       "label": "PostCode",
       "placeholder": "Enter your postcode"
     },
+    "field9": {
+      "choice1": {
+        "title": "A Patient",
+        "description": "You are a user who wishes to access the application's services"
+      },
+      "choice2": {
+        "title": "A Doctor",
+        "description": "You are a doctor who wishes to offer these services on the platform"
+      }
+    },
+    "field10": {
+      "label": "Blood Type",
+      "placeholder": "Enter your Blood Type"
+    },
+    "field11": {
+      "label": "NI Number",
+      "placeholder": "Enter your NI Number"
+    },
+    "field12": {
+      "label": "Weight",
+      "placeholder": "Enter your weight"
+    },
     "success_modal": {
       "title": "Hey, One more step!",
       "text": "A confirmation email has been sent to you to complete your registration.",
@@ -69,7 +94,9 @@
       "unknown_error": "An unknown error has occured. Please try again.",
       "missing_value": "Missing value"
     },
+    "addMedicalConditionButton": "Add a medical condition",
     "nextButton": "Next",
+    "finishButton": "Finish",
     "registerButton": "Sign Up",
     "loginText": "Already have an account?",
     "loginButton": "Login"
@@ -103,5 +130,18 @@
     "screen2": "Consultations",
     "screen3": "Messages",
     "screen4": "Profile"
+  },
+  "home": {
+    "title": "Find your desire health solution",
+    "placeholder": "Search doctors"
+  },
+  "profile": {
+    "title": "Profile",
+    "editButton":"Edit Profile",
+    "options1": "Profile informations",
+    "options2": "Language",
+    "options3": "Payment settings",
+    "options4": "Privacy"
   }
+  
 }

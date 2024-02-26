@@ -112,8 +112,19 @@ function Login({ route }) {
           }));
         }
       } else {
-        //success
-        navigation.replace("main");
+        //we will check if the user has already a type "patient or doctor"
+        const getUser = await supabase.from('profiles').select('type').eq('id', loginUser.data.user.id)
+        if(getUser.error){
+           console.log(getUser.error.message)
+        }else{
+           const type = getUser.data[0].type
+           if(type){
+             navigation.replace("main");
+           }else{
+             navigation.replace("register_step3");
+           }
+        }
+        
       }
     }
     setLoading(false);

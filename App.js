@@ -14,6 +14,8 @@ import OnBoarding from "./screens/public/onBoarding";
 import Welcome from "./screens/public/welcome";
 import Register_step1 from "./screens/public/register/step1";
 import Register_step2 from "./screens/public/register/step2";
+import Register_step3 from "./screens/public/register/step3";
+import Register_step4 from "./screens/public/register/step4";
 import Tab from "./screens/auth/tab";
 import "./i18next";
 
@@ -50,6 +52,22 @@ export default function App() {
         <Stack.Screen
           name="register_step2"
           component={Register_step2}
+          options={{
+            headerShown: false,
+            ...TransitionPresets.SlideFromRightIOS,
+          }}
+        />
+        <Stack.Screen
+          name="register_step3"
+          component={Register_step3}
+          options={{
+            headerShown: false,
+            ...TransitionPresets.SlideFromRightIOS,
+          }}
+        />
+        <Stack.Screen
+          name="register_step4"
+          component={Register_step4}
           options={{
             headerShown: false,
             ...TransitionPresets.SlideFromRightIOS,

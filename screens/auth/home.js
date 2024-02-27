@@ -1,12 +1,19 @@
 /** @format */
 
-import { View, Text, StatusBar, Image, TouchableOpacity, ScrollView } from "react-native";
+import { useState, useEffect } from "react";
+import { View, Text, StatusBar, Image, TouchableOpacity, ScrollView, TextInput } from "react-native";
 import { useCurrentUser } from "../../providers/sessionProvider";
 import { useTranslation } from "react-i18next";
 import color from "../../constants/colors";
+import {FontAwesome} from '@expo/vector-icons'
 import { Ionicons } from "@expo/vector-icons";
+
+
 function Home() {
   const { t } = useTranslation();
+  const [field, setField] = useState({
+    search: null
+  })
   const { user } = useCurrentUser();
 
   return (
@@ -22,6 +29,7 @@ function Home() {
         backgroundColor="transparent"
         translucent
       />
+
       <View style={{flexDirection:"row", justifyContent: 'space-between', paddingHorizontal: 15, alignItems: 'center'}}>
         <Text
             style={{
@@ -34,26 +42,46 @@ function Home() {
         >
           {t("home.title")}
         </Text>
-        {/*Image*/}
-        <Image
-          source={require("../../assets/Images/welcome1.jpg")}
-          style={{ height: 50, width: 50}}
-        />
+
+        {/*profile pic*/}
+        <View style={{height:45, width:45, borderRadius:100, backgroundColor:color.input, overflow: 'hidden', alignItems: 'center', justifyContent: 'center'}}>
+            {
+              user && user.profile_pic
+              ?
+              <Image source={{uri: user.profile_pic}} style={{height: '100%', width: '100%'}} />
+              :
+              <FontAwesome name="user" size={40} color="rgb(156, 156, 156)" style={{position: 'absolute', bottom: -8}} />
+            }
+        </View>
       </View>
   
      
-      {/*Header category*/}
-      <View>
-            
-      </View>
-      {/*Icones category*/}
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator>
-        <TouchableOpacity>
-          <Image source={require("../../assets/Images/welcome.jpg")}
-          style={{height:150}}/>
-        </TouchableOpacity>
-      </ScrollView>
-      
+      {/*searchbox category*/}
+        <View style={{ marginTop: 15, paddingHorizontal:16}}>
+          <View
+            style={{
+              backgroundColor: color.input,
+              width: "100%",
+              height: 55,
+              borderRadius: 100,
+              marginTop: 8,
+              elevation: 9,
+              flexDirection: "row",
+              alignItems: "center",
+              paddingHorizontal: 16,
+            }}
+          >
+            <Ionicons name="search-outline" size={23} color={color.base} />
+            <TextInput
+              placeholder={t("home.searchBox")}
+              value={field.search}
+              onChangeText={(text) =>
+                setField((prev) => ({ ...prev, search: text }))
+              }
+              style={{ marginLeft: 20, width: "73%" }}
+            />
+          </View>
+        </View>
 
       <View>
         {/**Text, image,button */}

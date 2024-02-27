@@ -36,6 +36,10 @@ export function SessionProvider({ children }) {
     getUserInfos();
   }, []);
 
+  useEffect(()=>{
+    console.log(user)
+  }, [user])
+
   return (
     <SessionContext.Provider value={{ user, setUser }}>
       {children}

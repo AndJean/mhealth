@@ -78,6 +78,27 @@
       "label": "Weight",
       "placeholder": "Enter your weight"
     },
+    "field13": {
+      "label": "Medical condition",
+      "placeholder": "Enter a medical condition"
+    },
+    "field14": {
+      "label": "GMC ID",
+      "placeholder": "Enter ID number"
+    },
+    "field15": {
+      "label": "Category",
+      "placeholder": "Choose your category",
+      "options":{
+        "option1": "General practitioner",
+        "option2": "Pediatrician",
+        "option3": "Dermatologist",
+        "option4": "Dentist",
+        "option5": "Cardiologist",
+        "option6": "Gynecologist",
+        "option7": "Ophthalmologist"
+      }
+    },
     "success_modal": {
       "title": "Hey, One more step!",
       "text": "A confirmation email has been sent to you to complete your registration.",
@@ -124,7 +145,6 @@
       "missing_value": "Missing value"
     }
   },
-
   "tabBar": {
     "screen1": "Home",
     "screen2": "Consultations",
@@ -133,7 +153,7 @@
   },
   "home": {
     "title": "Find your desire health solution",
-    "placeholder": "Search doctors"
+    "searchBox": "Search any particular Doctor" 
   },
   "profile": {
     "title": "Profile",

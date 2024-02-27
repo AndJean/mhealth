@@ -49,14 +49,20 @@ function Profile() {
                 <FontAwesome name="user" size={130} color="rgb(156, 156, 156)" style={{position: 'absolute', bottom: -30}} />
               }
           </View>
-          {/*full name*/}
-            <Text style={{marginTop:25, fontSize:16,fontWeight:'700'}}>
+            {/*user type*/}
+            <View style={{marginTop: 25, paddingHorizontal: 16, paddingVertical: 5, borderRadius: 100, backgroundColor: user.type === 'Patient' ? color.base: 'rgb(45, 97, 148)'}}>
+              <Text style={{fontSize:16, fontWeight:'700', color: 'white'}}>
+                {user.type}
+              </Text>
+            </View>
+            {/*full name*/}
+            <Text style={{marginTop: 7, fontSize:16,fontWeight:'700'}}>
               {user.full_name}
             </Text>
-          {/*address*/}
-          <Text style={{marginTop:7, fontSize:16}}>
-              {user.address}
-          </Text>
+            {/*address*/}
+              <Text style={{marginTop: 7, fontSize:16,}}>
+                {user.address}
+              </Text>              
       </View>
       <View style={{flex:1, backgroundColor:color.base, borderTopLeftRadius:45,borderTopRightRadius:45, paddingTop: 50, paddingHorizontal: 15}}>
          {/**Big container */}

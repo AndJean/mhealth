@@ -31,13 +31,33 @@ export function SessionProvider({ children }) {
     }
   }
 
-  //launch once when the user is connected
+  //a function to listen to all changes in the profiles database
+  async function listenToProfileChanges(){
+    if(user){
+      const channel = supabase
+      .channel('profile-changes')
+      .on('postgres_changes', {event: '*', schema: 'public'}, (payload) => {
+          if(payload.table === 'profiles' && payload.new.id === user.id){
+            setUser(payload.new)
+          }
+        }
+      )
+      .subscribe()      
+    }
+  }
+
+  //executed once when the user is connected
   useEffect(() => {
-    getUserInfos();
+    listenToProfileChanges();
   }, []);
 
+  //executed everytime the user state change
+  useEffect(() => {
+    getUserInfos();
+  }, [user]);
+
   useEffect(()=>{
-    console.log(user)
+    //console.log(user)
   }, [user])
 
   return (

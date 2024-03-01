@@ -153,7 +153,16 @@
   },
   "home": {
     "title": "Find your desire health solution",
-    "searchBox": "Search any particular Doctor" 
+    "searchBox": "Search any particular Doctor",
+    "category": {
+      "option1": "General practitioner",
+        "option2": "Pediatrician",
+        "option3": "Dermatologist",
+        "option4": "Dentist",
+        "option5": "Cardiologist",
+        "option6": "Gynecologist",
+        "option7": "Ophthalmologist"
+    }
   },
   "profile": {
     "title": "Profile",

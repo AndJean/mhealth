@@ -4,10 +4,12 @@ import { supabase } from "../../supabase";
 import { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useCurrentUser } from "../../providers/sessionProvider";
 import color from "../../constants/colors";
 
 function Splash() {
   const navigation = useNavigation();
+  const {setUser} = useCurrentUser()
 
   //check if any user exist
   async function fetchUser() {
@@ -18,10 +20,11 @@ function Splash() {
     } else {
       
     //we will check if the user has already a type "patient or doctor"
-    const getUser = await supabase.from('profiles').select('type').eq('id', fetch.data.session.user.id)
+    const getUser = await supabase.from('profiles').select('*').eq('id', fetch.data.session.user.id)
     if(getUser.error){
         console.log(getUser.error.message)
     }else{
+        setUser(getUser.data[0])
         const type = getUser.data[0].type
         if(type){
           navigation.replace("main");

@@ -9,14 +9,17 @@ import Profile from "./profile";
 import Consultation from "./consultation";
 import Messages from "./messages";
 import { SessionProvider } from "../../providers/sessionProvider";
+import { useCurrentUser } from "../../providers/sessionProvider";
 
 const Tabs = createBottomTabNavigator();
 function Tab() {
+  const {user} = useCurrentUser()
   const { t } = useTranslation();
 
   return (
-    <SessionProvider>
-      <Tabs.Navigator>
+    <Tabs.Navigator>
+      {
+        user.type !== 'Doctor' &&
         <Tabs.Screen
           name="home"
           component={Home}
@@ -32,53 +35,53 @@ function Tab() {
             tabBarLabel: t("tabBar.screen1"),
           }}
         />
-        <Tabs.Screen
-          name="consultation"
-          component={Consultation}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ focused }) => (
-              <Ionicons
-                name="document-text-outline"
-                color={focused ? color.base : "gray"}
-                size={24}
-              />
-            ),
-            tabBarLabel: t("tabBar.screen2"),
-          }}
-        />
-        <Tabs.Screen
-          name="messages"
-          component={Messages}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ focused }) => (
-              <Ionicons
-                name="chatbubble-outline"
-                color={focused ? color.base : "gray"}
-                size={24}
-              />
-            ),
-            tabBarLabel: t("tabBar.screen3"),
-          }}
-        />
-        <Tabs.Screen
-          name="profile"
-          component={Profile}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ focused }) => (
-              <Ionicons
-                name="person-circle-outline"
-                color={focused ? color.base : "gray"}
-                size={24}
-              />
-            ),
-            tabBarLabel: t("tabBar.screen4"),
-          }}
-        />
-      </Tabs.Navigator>
-    </SessionProvider>
+      }
+      <Tabs.Screen
+        name="consultation"
+        component={Consultation}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name="document-text-outline"
+              color={focused ? color.base : "gray"}
+              size={24}
+            />
+          ),
+          tabBarLabel: t("tabBar.screen2"),
+        }}
+      />
+      <Tabs.Screen
+        name="messages"
+        component={Messages}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name="chatbubble-outline"
+              color={focused ? color.base : "gray"}
+              size={24}
+            />
+          ),
+          tabBarLabel: t("tabBar.screen3"),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name="person-circle-outline"
+              color={focused ? color.base : "gray"}
+              size={24}
+            />
+          ),
+          tabBarLabel: t("tabBar.screen4"),
+        }}
+      />
+    </Tabs.Navigator>
   );
 }
 

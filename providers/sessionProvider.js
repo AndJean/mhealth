@@ -14,11 +14,7 @@ export function SessionProvider({ children }) {
     const userId = (await supabase.auth.getSession()).data.session.user.id;
 
     //make a request with the user id to retrieve all the corresponding informations from the database
-    const getUser = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", userId);
-    //SELECT * FROM "profiles" WHERE id = userId
+    const getUser = await supabase.from("profiles").select("*").eq("id", userId);
 
     //and then if there is no errors, store these informations into our state "user"
     if (getUser.error) {
@@ -31,10 +27,11 @@ export function SessionProvider({ children }) {
     }
   }
 
-  //a function to listen to all changes in the profiles database
-  async function listenToProfileChanges(){
+
+  //executed once when the user is connected
+  useEffect(() => {
     if(user){
-      const channel = supabase
+      supabase
       .channel('profile-changes')
       .on('postgres_changes', {event: '*', schema: 'public'}, (payload) => {
           if(payload.table === 'profiles' && payload.new.id === user.id){
@@ -44,20 +41,13 @@ export function SessionProvider({ children }) {
       )
       .subscribe()      
     }
-  }
-
-  //executed once when the user is connected
-  useEffect(() => {
-    listenToProfileChanges();
-  }, []);
+  }, [user])
 
   //executed everytime the user state change
   useEffect(() => {
-    getUserInfos();
-  }, [user]);
-
-  useEffect(()=>{
-    //console.log(user)
+    if(user){
+      getUserInfos()      
+    }
   }, [user])
 
   return (

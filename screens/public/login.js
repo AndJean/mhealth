@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import color from "../../constants/colors";
 import { useNavigation } from "@react-navigation/native";
+import { useCurrentUser } from "../../providers/sessionProvider";
 import { supabase } from "../../supabase";
 import validator from "validator";
 import { useState } from "react";
@@ -21,6 +22,7 @@ import { RadioButton } from "react-native-radio-buttons-group";
 
 function Login({ route }) {
   const { t } = useTranslation(); //used to transate the app
+  const {setUser} = useCurrentUser()
   const navigation = useNavigation(); //used to navigate between screens
   const [loading, setLoading] = useState(false); //used to set the loading state
   const [showPassword, setShowPassword] = useState(false);
@@ -113,16 +115,17 @@ function Login({ route }) {
         }
       } else {
         //we will check if the user has already a type "patient or doctor"
-        const getUser = await supabase.from('profiles').select('type').eq('id', loginUser.data.user.id)
+        const getUser = await supabase.from('profiles').select('*').eq('id', loginUser.data.user.id)
         if(getUser.error){
            console.log(getUser.error.message)
         }else{
-           const type = getUser.data[0].type
-           if(type){
-             navigation.replace("main");
-           }else{
-             navigation.replace("register_step3");
-           }
+            setUser(getUser.data[0])
+            const type = getUser.data[0].type
+            if(type){
+              navigation.replace("main");
+            }else{
+              navigation.replace("register_step3");
+            }
         }
         
       }

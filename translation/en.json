@@ -113,10 +113,12 @@
       "existing_email": "An account already exists with this address",
       "existing_phone": "An account already exists with this phone number",
       "unknown_error": "An unknown error has occured. Please try again.",
-      "missing_value": "Missing value"
+      "missing_value": "Missing value",
+      "similar_values": "Similar information"
     },
     "addMedicalConditionButton": "Add a medical condition",
     "nextButton": "Next",
+    "editButton": "Edit",
     "finishButton": "Finish",
     "registerButton": "Sign Up",
     "loginText": "Already have an account?",
@@ -171,6 +173,29 @@
     "options2": "Language",
     "options3": "Payment settings",
     "options4": "Privacy"
+  },
+  "others":{
+    "profilePicUpdated": "Profile picture updated",
+    "profileUpdated": "Profile updated"
+  },
+  "editlanguage": {
+    "title": "Edit language"
+  },
+  "editDoctorProfile":{
+    "field1": {
+      "label": "Fees",
+      "placeholder": "Enter your consultation fees"
+    },
+    "field2": {
+      "label": "Working days"
+    },
+    "working_days":{
+      "option1": "Monday",
+      "option2": "Tuesday",
+      "option3": "Wednesday",
+      "option4": "Thursday",
+      "option5": "Friday",
+      "option6": "Saturday"
+    }
   }
-  
 }

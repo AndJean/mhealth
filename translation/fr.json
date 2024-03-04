@@ -1,32 +1,35 @@
 {
   "onBoarding": {
     "screen1": {
-      "title": "Consultez uniquement avec un médecin en qui vous avez confiance "
+      "title": "Consultez uniquement avec des médecins de confiance"
     },
     "screen2": {
       "title": "Accédez instantanément à des milliers de médecins de confiance"
     },
     "screen3": {
-      "title": "Prenez rendez-vous en ligne pour une consultation en personne avec un médecin"
+      "title": "Prenez rendez-vous en ligne ou en personne avec un médecin"
     }
   },
   "welcome": {
     "title": "Commençons !",
     "subtitle": "Connectez-vous pour profiter des fonctionnalités que nous avons fournies et restez en bonne santé !",
     "loginButton": "Connexion",
-    "RegisterButton": "Inscription"
+    "registerButton": "S'inscrire"
   },
   "register": {
     "title": "Ouvrir un compte",
     "title2": "Autres informations",
+    "title3": "Informations du patient",
+    "title4": "Informations du médecin",
     "subtitle": "Remplissez tous les champs avant de continuer",
+    "subtitle2": "Pouvez-vous confirmer le type d'utilisateur que vous êtes ?",
     "field1": {
       "label": "Nom complet",
       "placeholder": "Entrez votre nom complet"
     },
     "field2": {
       "label": "E-mail",
-      "placeholder": "Entrez votre e-mail"
+      "placeholder": "Entrez votre adresse e-mail"
     },
     "field3": {
       "label": "Téléphone",
@@ -37,7 +40,7 @@
       "placeholder": "Choisissez un mot de passe"
     },
     "field5": {
-      "label": "Sexe",
+      "label": "Genre",
       "choice1": "Homme",
       "choice2": "Femme"
     },
@@ -53,8 +56,51 @@
       "label": "Code postal",
       "placeholder": "Entrez votre code postal"
     },
+    "field9": {
+      "choice1": {
+        "title": "Un patient",
+        "description": "Vous êtes un utilisateur qui souhaite accéder aux services de l'application"
+      },
+      "choice2": {
+        "title": "Un médecin",
+        "description": "Vous êtes un médecin qui souhaite proposer ses services sur la plateforme"
+      }
+    },
+    "field10": {
+      "label": "Groupe sanguin",
+      "placeholder": "Entrez votre groupe sanguin"
+    },
+    "field11": {
+      "label": "Numéro d'assurance sociale",
+      "placeholder": "Entrez votre numéro d'assurance sociale"
+    },
+    "field12": {
+      "label": "Poids",
+      "placeholder": "Entrez votre poids"
+    },
+    "field13": {
+      "label": "État de santé",
+      "placeholder": "Entrez un état de santé"
+    },
+    "field14": {
+      "label": "Identifiant GMC",
+      "placeholder": "Entrez le numéro d'identification"
+    },
+    "field15": {
+      "label": "Catégorie",
+      "placeholder": "Choisissez votre catégorie",
+      "options": {
+        "option1": "Médecin généraliste",
+        "option2": "Pédiatre",
+        "option3": "Dermatologue",
+        "option4": "Dentiste",
+        "option5": "Cardiologue",
+        "option6": "Gynécologue",
+        "option7": "Ophtalmologue"
+      }
+    },
     "success_modal": {
-      "title": "Encore une étape !",
+      "title": "Eh bien, une étape de plus !",
       "text": "Un e-mail de confirmation vous a été envoyé pour finaliser votre inscription.",
       "resend_button": "Renvoyer un e-mail de confirmation"
     },
@@ -62,15 +108,19 @@
       "title": "Une erreur s'est produite !"
     },
     "errors": {
-      "invalid_value": "Valeur non valide",
-      "invalid_password": "Votre mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre",
-      "existing_email": "Un compte existe déjà avec cette adresse e-mail",
+      "invalid_value": "Valeur invalide",
+      "invalid_password": "Votre mot de passe doit contenir au moins 8 caractères, une lettre majuscule et un chiffre",
+      "existing_email": "Un compte existe déjà avec cette adresse",
       "existing_phone": "Un compte existe déjà avec ce numéro de téléphone",
       "unknown_error": "Une erreur inconnue s'est produite. Veuillez réessayer.",
-      "missing_value": "Valeur manquante"
+      "missing_value": "Valeur manquante",
+      "similar_values": "Informations similaires"
     },
+    "addMedicalConditionButton": "Ajouter une condition médicale",
     "nextButton": "Suivant",
-    "registerButton": "Inscription",
+    "editButton": "Modifier",
+    "finishButton": "Terminer",
+    "registerButton": "S'inscrire",
     "loginText": "Vous avez déjà un compte ?",
     "loginButton": "Connexion"
   },
@@ -79,20 +129,20 @@
     "subtitle": "Remplissez tous les champs avant de continuer",
     "field1": {
       "label": "E-mail",
-      "placeholder": "Entrez votre e-mail"
+      "placeholder": "Entrez votre adresse e-mail"
     },
     "field2": {
       "label": "Mot de passe",
       "placeholder": "Entrez votre mot de passe"
     },
     "loginButton": "Connexion",
-    "registerButton": "Inscription",
+    "registerButton": "S'inscrire",
     "registerText": "Pas encore de compte ?",
     "resetText": "Mot de passe oublié ?",
     "errors": {
-      "invalid_value": "Valeur non valide",
+      "invalid_value": "Valeur invalide",
       "no_verified_email": "Veuillez vérifier votre adresse e-mail",
-      "invalid_credentials": "Identifiants de connexion non valides",
+      "invalid_credentials": "Identifiants de connexion invalides",
       "unknown_error": "Une erreur inconnue s'est produite. Veuillez réessayer.",
       "missing_value": "Valeur manquante"
     }
@@ -102,5 +152,33 @@
     "screen2": "Consultations",
     "screen3": "Messages",
     "screen4": "Profil"
+  },
+  "home": {
+    "title": "Trouvez la solution santé qui vous convient",
+    "searchBox": "Recherchez un médecin particulier",
+    "category": {
+      "option1": "Médecin généraliste",
+      "option2": "Pédiatre",
+      "option3": "Dermatologue",
+      "option4": "Dentiste",
+      "option5": "Cardiologue",
+      "option6": "Gynécologue",
+      "option7": "Ophtalmologue"
+    }
+  },
+  "profile": {
+    "title": "Profil",
+    "editButton": "Modifier le profil",
+    "options1": "Informations du profil",
+    "options2": "Langue",
+    "options3": "Paramètres de paiement",
+    "options4": "Confidentialité"
+  },
+  "others": {
+    "profilePicUpdated": "Photo de profil mise à jour",
+    "profileUpdated": "Profil mis à jour"
+  },
+  "editlanguage": {
+    "title": "Modifier la langue"
   }
 }

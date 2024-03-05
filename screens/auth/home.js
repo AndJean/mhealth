@@ -1,7 +1,7 @@
 /** @format */
 
 import { useState, useEffect } from "react";
-import { View, Text, StatusBar, Image, TouchableOpacity, ScrollView, TextInput } from "react-native";
+import { View, Text, StatusBar, Image, TouchableOpacity, ScrollView, TextInput, Pressable } from "react-native";
 import { useCurrentUser } from "../../providers/sessionProvider";
 import { useTranslation } from "react-i18next";
 import color from "../../constants/colors";
@@ -16,6 +16,8 @@ function Home() {
     search: null
   })
   const { user } = useCurrentUser();
+  const navigation = useNavigation()
+
 
   return (
     <View
@@ -59,7 +61,8 @@ function Home() {
      
       {/*searchbox category*/}
       <View style={{ marginTop: 15, paddingHorizontal:16}}>
-        <View
+        <Pressable
+          onPress={()=> navigation.navigate('search')}
           style={{
             backgroundColor: color.input,
             width: "100%",
@@ -73,15 +76,10 @@ function Home() {
           }}
         >
           <Ionicons name="search-outline" size={23} color={color.base} />
-          <TextInput
-            placeholder={t("home.searchBox")}
-            value={field.search}
-            onChangeText={(text) =>
-              setField((prev) => ({ ...prev, search: text }))
-            }
-            style={{ marginLeft: 20, width: "73%" }}
-          />
-        </View>
+          <View style={{ marginLeft: 20, width: "73%" }}>
+            <Text style={{fontSize: 15, opacity: 0.4}}>{t("home.searchBox")}</Text>
+          </View>
+        </Pressable>
       </View>
       
       {/**categories list*/}

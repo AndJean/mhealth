@@ -114,6 +114,7 @@
       "existing_phone": "An account already exists with this phone number",
       "unknown_error": "An unknown error has occured. Please try again.",
       "missing_value": "Missing value",
+      "missing_working_day": "Please select a day",
       "similar_values": "Similar information"
     },
     "addMedicalConditionButton": "Add a medical condition",
@@ -184,7 +185,7 @@
   "editDoctorProfile":{
     "field1": {
       "label": "Fees",
-      "placeholder": "Enter your consultation fees"
+      "placeholder": "Enter your fees (per consultation)"
     },
     "field2": {
       "label": "Working days"
@@ -197,5 +198,15 @@
       "option5": "Friday",
       "option6": "Saturday"
     }
+  },
+  "doctorProfile":{
+    "title": "Doctor detail",
+    "about_title": "About",
+    "working_days_title": "Working days",
+    "empty_about": "No description",
+    "appointment_button": "Book appointment"
+  },
+  "search":{
+    "results_count": "corresponding doctors"
   }
 }

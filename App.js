@@ -19,6 +19,8 @@ import Register_step4 from "./screens/public/register/step4";
 import Tab from "./screens/auth/tab";
 import EditProfileMain from "./screens/auth/editProfile/main";
 import EditLanguage from "./screens/auth/editProfile/languages";
+import Search from "./screens/auth/search";
+import DoctorProfile from "./screens/auth/doctorProfile";
 import { SessionProvider } from "./providers/sessionProvider";
 import "./i18next";
 
@@ -104,6 +106,22 @@ export default function App() {
           <Stack.Screen
             name="editLanguage"
             component={EditLanguage}
+            options={{
+              headerShown: false,
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="search"
+            component={Search}
+            options={{
+              headerShown: false,
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="doctorProfile"
+            component={DoctorProfile}
             options={{
               headerShown: false,
               ...TransitionPresets.SlideFromRightIOS,

@@ -551,14 +551,55 @@ function EditDoctorInformations(){
   }
   //a function called when the user submit the form
   async function onSubmit() {
+    try {
       let hasError = false;
+      let selectedDay = false
       setErrors({
         doctor_working_days: null,
         doctor_fees: null,
       })
       setLoading(true)
 
-      setLoading(false)
+      //check the doctor fees field
+      if(field.doctor_fees){
+        if(parseFloat(field.doctor_fees) <= 0){
+          hasError = true
+          setErrors(prev => ({...prev, doctor_fees: t('register.errors.invalid_value')}))
+        }
+      }else{
+        hasError = true
+        setErrors(prev => ({...prev, doctor_fees: t('register.errors.missing_value')}))
+      }
+
+      //a loop for check each working day
+      doctorWorkingDays.forEach(day => {
+        if(day.selected){
+          selectedDay = true
+        }
+      })
+
+      if(!selectedDay){
+        hasError = true
+        setErrors(prev => ({...prev, doctor_working_days: t('register.errors.missing_working_day')}))        
+      }
+
+      if(!hasError){
+        const data = {
+          doctor_fees: field.doctor_fees,
+          doctor_working_days: doctorWorkingDays
+        }
+        const updateInfos = await supabase.from('profiles').update(data).eq('id', user.id)
+        if(updateInfos.error){
+          console.log(updateInfos.error)
+        }else{
+          ToastAndroid.show(t('others.profileUpdated'), ToastAndroid.SHORT)
+        }
+      }
+      setLoading(false)    
+    } catch (error) {
+      console.log(error)
+      setLoading(false) 
+    }
   }
 
   //pre-fill fields with default values
@@ -566,7 +607,7 @@ function EditDoctorInformations(){
       if(user){
         if(field.doctor_fees === null){
           setField({
-            doctor_fees: user.doctor_fees,
+            doctor_fees: user.doctor_fees.toString(),
           })
         }
 
@@ -574,8 +615,14 @@ function EditDoctorInformations(){
           setDoctorWorkingDays(user.doctor_working_days)
         }
       }
-  }, [user])
+  }, [])
 
+  //a function called when the doctor pick a day
+  function chooseDay(index){
+    const arr = [...doctorWorkingDays]
+    arr[index].selected = !arr[index].selected
+    setDoctorWorkingDays(arr)
+  }
 
   return(
       <View style={{flex:1, backgroundColor:'white', paddingHorizontal: 25,}}>
@@ -613,13 +660,14 @@ function EditDoctorInformations(){
                 borderColor: errors.doctor_fees && "orangered",
               }}
             >
-              <Ionicons name="mail-outline" size={23} color={color.base} />
+              <Ionicons name="cash" size={23} color={color.base} />
               <TextInput
                 placeholder={t("editDoctorProfile.field1.placeholder")}
                 value={field.doctor_fees}
                 onChangeText={(text) =>
                   setField((prev) => ({ ...prev, doctor_fees: text }))
                 }
+                keyboardType="numeric"
                 onChange={() => onChange("doctor_fees")}
                 style={{ marginLeft: 20, width: "73%" }}
               />
@@ -641,12 +689,22 @@ function EditDoctorInformations(){
               <ScrollView horizontal showsHorizontalScrollIndicator={false} bounces={false} overScrollMode="never" contentContainerStyle={{gap: 10}}>
                 {
                   doctorWorkingDays.map((day, index)=>
-                    <View key={index} style={{paddingHorizontal: 5, paddingVertical: 4, borderRadius: 100, borderWidth: 1, borderColor: 'rgb(214, 214, 214)'}}>
+                    <TouchableOpacity 
+                      key={index} 
+                      onPress={()=> chooseDay(index)} 
+                      style={{paddingHorizontal: 8, paddingVertical: 4, borderRadius: 100, borderWidth: 1, borderColor: 'rgb(214, 214, 214)', backgroundColor: day.selected ? color.base : 'transparent'}}
+                    >
                       <Text style={{fontSize: 15}}>{day.name}</Text>
-                    </View>
+                    </TouchableOpacity>
                   )
                 }                 
-              </ScrollView>       
+              </ScrollView>    
+              {
+                errors.doctor_working_days && 
+                <Text style={{fontSize: 14, paddingLeft: 10, color: "orangered", marginTop: 10}}>
+                  {errors.doctor_working_days}
+                </Text>
+              }   
             </View>
           </View>
         

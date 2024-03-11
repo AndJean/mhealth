@@ -21,6 +21,7 @@ import EditProfileMain from "./screens/auth/editProfile/main";
 import EditLanguage from "./screens/auth/editProfile/languages";
 import Search from "./screens/auth/search";
 import DoctorProfile from "./screens/auth/doctorProfile";
+import SearchByCategories from "./screens/auth/searchByCategories";
 import { SessionProvider } from "./providers/sessionProvider";
 import "./i18next";
 
@@ -122,6 +123,14 @@ export default function App() {
           <Stack.Screen
             name="doctorProfile"
             component={DoctorProfile}
+            options={{
+              headerShown: false,
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="searchByCategories"
+            component={SearchByCategories}
             options={{
               headerShown: false,
               ...TransitionPresets.SlideFromRightIOS,

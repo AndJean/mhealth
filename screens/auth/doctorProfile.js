@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity, Image} from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView} from "react-native";
 import { useCurrentUser } from "../../providers/sessionProvider";
 import { useNavigation } from "@react-navigation/native";
 import Animated, {LinearTransition} from "react-native-reanimated"
@@ -61,13 +61,49 @@ function DoctorProfile({route}){
                 </View>
             </View>
 
+            {/*Fees section */}
+            <View style={{marginTop: 25, flexDirection: 'row', gap: 12}}>
+                <Text style={{fontSize: 17, fontWeight: 'bold'}}>{t('doctorProfile.fees')}:</Text>
+                {
+                    doctorInfos.doctor_fees ?
+                    <View style={{backgroundColor: color.base3, paddingVertical: 4, paddingHorizontal: 15, borderRadius: 100}}>
+                        <Text style={{fontSize: 15, color: 'white'}}>{doctorInfos.doctor_fees} £</Text>
+                    </View>:
+                    <Text style={{fontSize: 15}}>{t('others.unavailable_value')}</Text>
+                }
+            </View>
+
+            {/*working days section */}
+            <View style={{marginTop: 25}}>
+                <Text style={{fontSize: 17, fontWeight: 'bold'}}>{t('doctorProfile.working_days_title')}:</Text>
+                {
+                   doctorInfos.doctor_working_days && doctorInfos.doctor_working_days.length > 0 ?
+                   <View style={{marginTop: 8}}>
+                        <ScrollView horizontal contentContainerStyle={{gap: 14}} showsHorizontalScrollIndicator={false} bounces={false} overScrollMode="never">
+                        {
+                            doctorInfos.doctor_working_days.map((day, index) => 
+                                day.selected &&
+                                <View key={index} style={{paddingVertical: 10, paddingHorizontal: 10, borderRadius: 15, borderWidth: 1, borderColor: "#dbdbdb"}}>
+                                    <Text style={{fontSize: 16}}>{day.name}</Text>
+                                </View>
+                        )}
+                        </ScrollView>  
+                   </View> :
+                   <Text style={{fontSize: 15, marginTop: 8}}>{t('others.unavailable_value')}</Text>
+                }
+            </View>
+
             {/*About section */}
             <View style={{marginTop: 25}}>
                 <Text style={{fontSize: 17, fontWeight: 'bold'}}>{t('doctorProfile.about_title')}</Text>
-                <Text style={{fontSize: 15, marginTop: 8, fontStyle: doctorInfos.doctor_description ? 'normal': 'italic'}}>{t('doctorProfile.empty_about')}</Text>
+                {
+                    doctorInfos.doctor_description ?
+                    <Text style={{fontSize: 16, marginTop: 8, opacity: 0.7}}>{doctorInfos.doctor_description}</Text> :
+                    <Text style={{fontSize: 15, marginTop: 8, fontStyle: 'italic'}}>{t('doctorProfile.empty_about')}</Text> 
+                }
             </View>
 
-            {/*bottom container*/}
+            {/*Edit bottom container*/}
             <Animated.View layout={LinearTransition.duration(300)} style={{position: 'absolute', bottom: 35, width: '90%', alignSelf: 'center'}}>
                 <TouchableOpacity
                     style={{

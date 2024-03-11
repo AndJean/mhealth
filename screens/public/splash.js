@@ -13,6 +13,7 @@ function Splash() {
 
   //check if any user exist
   async function fetchUser() {
+    //await supabase.auth.signOut()
     const fetch = await supabase.auth.getSession();
     if (fetch.data.session === null) {
       //redirect to onBoarding screens

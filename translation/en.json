@@ -158,13 +158,13 @@
     "title": "Find your desire health solution",
     "searchBox": "Search any particular Doctor",
     "category": {
-      "option1": "General practitioner",
+      "option1": "General Practitioner",
         "option2": "Pediatrician",
-        "option3": "Dermatologist",
+        "option3": "Dermatology",
         "option4": "Dentist",
-        "option5": "Cardiologist",
-        "option6": "Gynecologist",
-        "option7": "Ophthalmologist"
+        "option5": "Cardiology",
+        "option6": "Gynecology",
+        "option7": "Ophthalmology"
     }
   },
   "profile": {
@@ -177,7 +177,9 @@
   },
   "others":{
     "profilePicUpdated": "Profile picture updated",
-    "profileUpdated": "Profile updated"
+    "profileUpdated": "Profile updated",
+    "unavailable_value": "Unavailable"
+
   },
   "editlanguage": {
     "title": "Edit language"
@@ -190,6 +192,10 @@
     "field2": {
       "label": "Working days"
     },
+    "field3": {
+      "label": "Description",
+      "placeholder":"Enter your description"
+    },
     "working_days":{
       "option1": "Monday",
       "option2": "Tuesday",
@@ -200,7 +206,9 @@
     }
   },
   "doctorProfile":{
-    "title": "Doctor detail",
+    "title": "Doctor details",
+    "fees": "Consultation fees",
+    "working_days": "Working Days",
     "about_title": "About",
     "working_days_title": "Working days",
     "empty_about": "No description",

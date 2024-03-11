@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text, TextInput, ActivityIndicator, ToastAndroid, ScrollView } from "react-native";
+import { View, TouchableOpacity, Text, TextInput, ActivityIndicator, ToastAndroid, ScrollView, KeyboardAvoidingView } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
@@ -534,10 +534,12 @@ function EditDoctorInformations(){
       }
     ])
   const [field, setField] = useState({
-    doctor_fees: null
+    doctor_fees: null,
+    description: null
   }); //a state to store all the values
   const [errors, setErrors] = useState({
     doctor_working_days: null,
+    description: null,
     doctor_fees: null,
   }); //a state to store all the form errors
 
@@ -586,7 +588,8 @@ function EditDoctorInformations(){
       if(!hasError){
         const data = {
           doctor_fees: field.doctor_fees,
-          doctor_working_days: doctorWorkingDays
+          doctor_working_days: doctorWorkingDays,
+          doctor_description: field.description
         }
         const updateInfos = await supabase.from('profiles').update(data).eq('id', user.id)
         if(updateInfos.error){
@@ -605,11 +608,10 @@ function EditDoctorInformations(){
   //pre-fill fields with default values
   useEffect(()=>{
       if(user){
-        if(field.doctor_fees === null){
-          setField({
-            doctor_fees: user.doctor_fees.toString(),
-          })
-        }
+        setField({
+          doctor_fees: user.doctor_fees ? user.doctor_fees.toString() : null  ,
+          description: user.doctor_description ? user.doctor_description.toString() : null,
+        })
 
         if(user.doctor_working_days){
           setDoctorWorkingDays(user.doctor_working_days)
@@ -640,102 +642,148 @@ function EditDoctorInformations(){
               <View style={{width: 23}}></View>
           </View>
 
-          {/*fees input*/}
-          <View style={{ marginTop: 50 }}>
-            <Text style={{ fontSize: 15, paddingLeft: 10 }}>
-              {t("editDoctorProfile.field1.label")}
-            </Text>
-            <View
-              style={{
-                backgroundColor: color.input,
-                width: "100%",
-                height: 55,
-                borderRadius: 100,
-                marginTop:  8,
-                elevation: 9,
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 16,
-                borderWidth: errors.doctor_fees && 1,
-                borderColor: errors.doctor_fees && "orangered",
-              }}
-            >
-              <Ionicons name="cash" size={23} color={color.base} />
-              <TextInput
-                placeholder={t("editDoctorProfile.field1.placeholder")}
-                value={field.doctor_fees}
-                onChangeText={(text) =>
-                  setField((prev) => ({ ...prev, doctor_fees: text }))
-                }
-                keyboardType="numeric"
-                onChange={() => onChange("doctor_fees")}
-                style={{ marginLeft: 20, width: "73%" }}
-              />
-            </View>
-            {
-              errors.doctor_fees && 
-              <Text style={{fontSize: 14, paddingLeft: 10, color: "orangered", marginTop: 10}}>
-                {errors.doctor_fees}
-              </Text>
-            }
-          </View>
+          <KeyboardAvoidingView behavior="padding">
+            <ScrollView showsVerticalScrollIndicator={false} bounces={false} overScrollMode="never">
+                {/*fees input*/}
+                <View style={{ marginTop: 50 }}>
+                  <Text style={{ fontSize: 15, paddingLeft: 10 }}>
+                    {t("editDoctorProfile.field1.label")}
+                  </Text>
+                  <View
+                    style={{
+                      backgroundColor: color.input,
+                      width: "100%",
+                      height: 55,
+                      borderRadius: 100,
+                      marginTop:  8,
+                      elevation: 9,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      paddingHorizontal: 16,
+                      borderWidth: errors.doctor_fees && 1,
+                      borderColor: errors.doctor_fees && "orangered",
+                    }}
+                  >
+                    <Ionicons name="cash" size={23} color={color.base} />
+                    <TextInput
+                      placeholder={t("editDoctorProfile.field1.placeholder")}
+                      value={field.doctor_fees}
+                      onChangeText={(text) =>
+                        setField((prev) => ({ ...prev, doctor_fees: text }))
+                      }
+                      keyboardType="numeric"
+                      onChange={() => onChange("doctor_fees")}
+                      style={{ marginLeft: 20, width: "73%" }}
+                    />
+                  </View>
+                  {
+                    errors.doctor_fees && 
+                    <Text style={{fontSize: 14, paddingLeft: 10, color: "orangered", marginTop: 10}}>
+                      {errors.doctor_fees}
+                    </Text>
+                  }
+                </View>
 
-          {/*working days list*/}
-          <View style={{ marginTop: 20 }}>
-            <Text style={{ fontSize: 15, paddingLeft: 10 }}>
-              {t("editDoctorProfile.field2.label")}
-            </Text>
-            <View style={{marginTop: 15}}>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} bounces={false} overScrollMode="never" contentContainerStyle={{gap: 10}}>
-                {
-                  doctorWorkingDays.map((day, index)=>
-                    <TouchableOpacity 
-                      key={index} 
-                      onPress={()=> chooseDay(index)} 
-                      style={{paddingHorizontal: 8, paddingVertical: 4, borderRadius: 100, borderWidth: 1, borderColor: 'rgb(214, 214, 214)', backgroundColor: day.selected ? color.base : 'transparent'}}
+                {/*working days list*/}
+                <View style={{ marginTop: 20 }}>
+                  <Text style={{ fontSize: 15, paddingLeft: 10 }}>
+                    {t("editDoctorProfile.field2.label")}
+                  </Text>
+                  <View style={{marginTop: 15}}>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} bounces={false} overScrollMode="never" contentContainerStyle={{gap: 10}}>
+                      {
+                        doctorWorkingDays.map((day, index)=>
+                          <TouchableOpacity 
+                            key={index} 
+                            onPress={()=> chooseDay(index)} 
+                            style={{paddingHorizontal: 8, paddingVertical: 4, borderRadius: 100, borderWidth: 1, borderColor: 'rgb(214, 214, 214)', backgroundColor: day.selected ? color.base : 'transparent'}}
+                          >
+                            <Text style={{fontSize: 15}}>{day.name}</Text>
+                          </TouchableOpacity>
+                        )
+                      }                 
+                    </ScrollView>    
+                    {
+                      errors.doctor_working_days && 
+                      <Text style={{fontSize: 14, paddingLeft: 10, color: "orangered", marginTop: 10}}>
+                        {errors.doctor_working_days}
+                      </Text>
+                    }   
+                  </View>
+                </View>
+
+                {/*description input*/}
+                <View style={{ marginTop: 20 }}>
+                  <Text style={{ fontSize: 15, paddingLeft: 10 }}>
+                    {t("editDoctorProfile.field3.label")}
+                  </Text>
+                  <View
+                    style={{
+                      backgroundColor: color.input,
+                      width: "100%",
+                      height: 140,
+                      borderRadius: 15,
+                      marginTop:  8,
+                      elevation: 9,
+                      flexDirection: "row",
+                      paddingHorizontal: 16,
+                      borderWidth: errors.description && 1,
+                      borderColor: errors.description && "orangered",
+                    }}
+                  >
+                    <Ionicons name="text-outline" size={23} color={color.base} style={{marginTop: 15}} />
+                    <TextInput
+                      placeholder={t("editDoctorProfile.field3.placeholder")}
+                      value={field.description}
+                      onChangeText={(text) =>
+                        setField((prev) => ({ ...prev, description: text }))
+                      }
+                      maxLength={240}
+                      multiline
+                      textAlignVertical="top"
+                      onChange={() => onChange("description")}
+                      style={{ marginLeft: 20, width: "73%", height: '100%', paddingVertical: 16 }}
+                    />
+                  </View>
+                  {
+                    errors.description && 
+                    <Text style={{fontSize: 14, paddingLeft: 10, color: "orangered", marginTop: 10}}>
+                      {errors.description}
+                    </Text>
+                  }
+                </View>
+              
+                {/*bottom container*/}
+                <Animated.View layout={LinearTransition.duration(300)}>
+                  {/* Boutton submit */}
+                  <TouchableOpacity
+                    onPress={() => onSubmit()}
+                    disabled={loading}
+                    style={{
+                      backgroundColor: color.base,
+                      width: "100%",
+                      height: 55,
+                      borderRadius: 100,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginTop: 35,
+                      elevation: 9,
+                    }}
+                  >
+                    <Text
+                      style={{ color: "white", fontSize: 17, fontWeight: "bold" }}
                     >
-                      <Text style={{fontSize: 15}}>{day.name}</Text>
-                    </TouchableOpacity>
-                  )
-                }                 
-              </ScrollView>    
-              {
-                errors.doctor_working_days && 
-                <Text style={{fontSize: 14, paddingLeft: 10, color: "orangered", marginTop: 10}}>
-                  {errors.doctor_working_days}
-                </Text>
-              }   
-            </View>
-          </View>
-        
-          {/*bottom container*/}
-          <Animated.View layout={LinearTransition.duration(300)}>
-            {/* Boutton submit */}
-            <TouchableOpacity
-              onPress={() => onSubmit()}
-              disabled={loading}
-              style={{
-                backgroundColor: color.base,
-                width: "100%",
-                height: 55,
-                borderRadius: 100,
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 35,
-                elevation: 9,
-              }}
-            >
-              <Text
-                style={{ color: "white", fontSize: 17, fontWeight: "bold" }}
-              >
-                {loading ? (
-                  <ActivityIndicator size="small" color="white" />
-                ) : (
-                  t("register.editButton")
-                )}
-              </Text>
-            </TouchableOpacity>
-          </Animated.View>
+                      {loading ? (
+                        <ActivityIndicator size="small" color="white" />
+                      ) : (
+                        t("register.editButton")
+                      )}
+                    </Text>
+                  </TouchableOpacity>
+                </Animated.View>              
+            </ScrollView>
+          </KeyboardAvoidingView>
+
       </View>
   )
 }

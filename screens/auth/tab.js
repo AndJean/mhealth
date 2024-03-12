@@ -2,6 +2,7 @@
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "./home";
+import {StyleSheet} from 'react-native'
 import { Ionicons } from "@expo/vector-icons";
 import color from "../../constants/colors";
 import { useTranslation } from "react-i18next";
@@ -17,7 +18,7 @@ function Tab() {
   const { t } = useTranslation();
 
   return (
-    <Tabs.Navigator>
+    <Tabs.Navigator screenOptions={{tabBarStyle: styles.navigator}}>
       {
         user.type !== 'Doctor' &&
         <Tabs.Screen
@@ -84,5 +85,12 @@ function Tab() {
     </Tabs.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  navigator:{
+    height: 60,
+    paddingBottom: 7
+  }
+})
 
 export default Tab;

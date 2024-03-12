@@ -178,7 +178,8 @@
   "others":{
     "profilePicUpdated": "Profile picture updated",
     "profileUpdated": "Profile updated",
-    "unavailable_value": "Unavailable"
+    "unavailable_value": "Unavailable",
+    "nothingToShow": "Nothing to show"
 
   },
   "editlanguage": {
@@ -195,6 +196,18 @@
     "field3": {
       "label": "Description",
       "placeholder":"Enter your description"
+    },
+    "timerPicker":{
+      "title": "Choose a schedule for the",
+      "subtitle": "how much time are you available for?",
+      "field1": {
+        "label": "Starting Schedule",
+        "placeholder":"Setting the start time"
+      },
+      "field2": {
+        "label": "Closure schedule ",
+        "placeholder":"Setting the closing time"
+      }
     },
     "working_days":{
       "option1": "Monday",
@@ -216,5 +229,11 @@
   },
   "search":{
     "results_count": "corresponding doctors"
+  },
+  "consultation":{
+    "title": "Consultations"
+  },
+  "messages":{
+    "title": "Messages"
   }
 }

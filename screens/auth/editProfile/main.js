@@ -1,14 +1,16 @@
-import { View, TouchableOpacity, Text, TextInput, ActivityIndicator, ToastAndroid, ScrollView, KeyboardAvoidingView } from "react-native";
+import { View, TouchableOpacity, Text, TextInput, ActivityIndicator, ToastAndroid, ScrollView, KeyboardAvoidingView, Dimensions } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import color from "../../../constants/colors";
 import Animated, {LinearTransition} from 'react-native-reanimated'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useCurrentUser } from "../../../providers/sessionProvider";
 import { supabase } from "../../../supabase";
 import validator from "validator";
+import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet'
 import { SessionProvider } from "../../../providers/sessionProvider";
+import Modal from "react-native-modal";
 
 function EditProfileMain(){
   const {user} = useCurrentUser()
@@ -506,30 +508,38 @@ function EditDoctorInformations(){
   const navigation = useNavigation()
   const { t } = useTranslation(); //used to transate the app
   const [loading, setLoading] = useState(false); //used to set the loading state
+  const [selectedDay, setSelectedDay] = useState(null)
+  const [showTimePicker, setShowTimePicker] = useState(false)
   const {user} = useCurrentUser()
   const [doctorWorkingDays, setDoctorWorkingDays] = useState([
       {
         name: t('editDoctorProfile.working_days.option1'),
+        schedule: ['09', '17'],
         selected: false
       },
       {
         name: t('editDoctorProfile.working_days.option2'),
+        schedule: ['09', '17'],
         selected: false
       },
       {
         name: t('editDoctorProfile.working_days.option3'),
+        schedule: ['09', '17'],
         selected: false
       },
       {
         name: t('editDoctorProfile.working_days.option4'),
+        schedule: ['09', '17'],
         selected: false
       },
       {
         name: t('editDoctorProfile.working_days.option5'),
+        schedule: ['09', '17'],
         selected: false
       },
       {
         name: t('editDoctorProfile.working_days.option6'),
+        schedule: ['09', '17'],
         selected: false
       }
     ])
@@ -620,16 +630,20 @@ function EditDoctorInformations(){
   }, [])
 
   //a function called when the doctor pick a day
-  function chooseDay(index){
-    const arr = [...doctorWorkingDays]
-    arr[index].selected = !arr[index].selected
-    setDoctorWorkingDays(arr)
+  function openTimePicker(index){
+    setSelectedDay(index)
+    setShowTimePicker(true)
+  }
+
+  function closeTimePicker(){
+    setShowTimePicker(false)
+    setSelectedDay(null)
   }
 
   return(
-      <View style={{flex:1, backgroundColor:'white', paddingHorizontal: 25,}}>
+      <View style={{flex:1, backgroundColor:'white'}}>
           {/* header */}
-          <View style={{flexDirection: "row",paddingTop: 50,justifyContent: "space-between"}}>
+          <View style={{flexDirection: "row",paddingTop: 50,justifyContent: "space-between",  paddingHorizontal: 25}}>
               {/* Icon to go back to the previous screen */}
               <TouchableOpacity onPress={() => navigation.goBack()}>
                   <Ionicons name="chevron-back-outline" size={23} color="black" />
@@ -643,9 +657,9 @@ function EditDoctorInformations(){
           </View>
 
           <KeyboardAvoidingView behavior="padding">
-            <ScrollView showsVerticalScrollIndicator={false} bounces={false} overScrollMode="never">
+            <ScrollView showsVerticalScrollIndicator={false} bounces={false} overScrollMode="never" style={{}}>
                 {/*fees input*/}
-                <View style={{ marginTop: 50 }}>
+                <View style={{ marginTop: 50,  paddingHorizontal: 25 }}>
                   <Text style={{ fontSize: 15, paddingLeft: 10 }}>
                     {t("editDoctorProfile.field1.label")}
                   </Text>
@@ -685,7 +699,7 @@ function EditDoctorInformations(){
                 </View>
 
                 {/*working days list*/}
-                <View style={{ marginTop: 20 }}>
+                <View style={{ marginTop: 20,  paddingHorizontal: 25 }}>
                   <Text style={{ fontSize: 15, paddingLeft: 10 }}>
                     {t("editDoctorProfile.field2.label")}
                   </Text>
@@ -695,7 +709,7 @@ function EditDoctorInformations(){
                         doctorWorkingDays.map((day, index)=>
                           <TouchableOpacity 
                             key={index} 
-                            onPress={()=> chooseDay(index)} 
+                            onPress={()=> openTimePicker(index)} 
                             style={{paddingHorizontal: 8, paddingVertical: 4, borderRadius: 100, borderWidth: 1, borderColor: 'rgb(214, 214, 214)', backgroundColor: day.selected ? color.base : 'transparent'}}
                           >
                             <Text style={{fontSize: 15}}>{day.name}</Text>
@@ -713,7 +727,7 @@ function EditDoctorInformations(){
                 </View>
 
                 {/*description input*/}
-                <View style={{ marginTop: 20 }}>
+                <View style={{ marginTop: 20, paddingHorizontal: 25 }}>
                   <Text style={{ fontSize: 15, paddingLeft: 10 }}>
                     {t("editDoctorProfile.field3.label")}
                   </Text>
@@ -754,7 +768,7 @@ function EditDoctorInformations(){
                 </View>
               
                 {/*bottom container*/}
-                <Animated.View layout={LinearTransition.duration(300)}>
+                <Animated.View layout={LinearTransition.duration(300)} style={{marginBottom: 50, paddingHorizontal: 25}}>
                   {/* Boutton submit */}
                   <TouchableOpacity
                     onPress={() => onSubmit()}
@@ -783,8 +797,198 @@ function EditDoctorInformations(){
                 </Animated.View>              
             </ScrollView>
           </KeyboardAvoidingView>
-
+          {showTimePicker && <TimePicker closeTimePicker={closeTimePicker} selectedDay={selectedDay} setSelectedDay={setSelectedDay} doctorWorkingDays={doctorWorkingDays} setDoctorWorkingDays={setDoctorWorkingDays} />}       
       </View>
+  )
+}
+
+function TimePicker({closeTimePicker, selectedDay, setSelectedDay, doctorWorkingDays, setDoctorWorkingDays}){
+  const ref = useRef(null)
+  const {t} = useTranslation()
+  const [loading, setLoading] = useState(false)
+  const [field, setField] = useState({
+    start: '09',
+    end: '17'
+  })
+  const [errors, setErrors] = useState({
+    start: null,
+    end: null
+  })
+
+  useEffect(()=>{
+    if(doctorWorkingDays[selectedDay]){
+      setField({
+        start: doctorWorkingDays[selectedDay].schedule[0],
+        end: doctorWorkingDays[selectedDay].schedule[1]
+      })      
+    }
+  }, [])
+
+  async function onSubmit(){
+    let hasError = false
+
+    if(field.start){
+      if(field.start < 8 || field.start > 16){
+        hasError = true
+        setErrors(prev => ({...prev, start: t('register.errors.invalid_value')}))
+      }
+    }else{
+      hasError = true
+      setErrors(prev => ({...prev, start: t('register.errors.missing_value')}))
+    }
+
+    if(field.end){
+      if(field.end < 9 || field.end > 17){
+        hasError = true
+        setErrors(prev => ({...prev, end: t('register.errors.invalid_value')}))
+      }
+    }else{
+      hasError = true
+      setErrors(prev => ({...prev, end: t('register.errors.missing_value')}))
+    }
+
+    if(field.start && field.end && field.start === field.end || parseFloat(field.start) > parseFloat(field.end)){
+      hasError = true
+      setErrors(prev => ({...prev, start: t('register.errors.invalid_value')}))
+      setErrors(prev => ({...prev, end: t('register.errors.invalid_value')}))
+    }
+
+    
+    if(!hasError){
+      if(doctorWorkingDays[selectedDay]){
+        const arr = [...doctorWorkingDays]
+        arr[selectedDay].selected = true
+        arr[selectedDay].schedule = [field.start, field.end]
+        setDoctorWorkingDays(arr)
+        closeTimePicker()   
+      }
+    }
+  }
+
+  function onChange(name) {
+    //reset all the errors
+    setErrors({
+      start: null,
+      end: null,
+    });
+  }
+
+  function onClose(){
+    setSelectedDay(null)
+  }
+
+  return (
+    <Modal
+      isVisible
+      onBackdropPress={() => closeTimePicker()}
+      backdropOpacity={0.4}
+      deviceHeight={Dimensions.get("screen").height}
+      backdropTransitionOutTiming={0}
+      useNativeDriver
+      statusBarTranslucent
+    >
+        <View style={{width: '100%', backgroundColor: 'white', borderRadius: 25, paddingHorizontal: 25, paddingVertical: 30}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>{t('editDoctorProfile.timerPicker.title')} {doctorWorkingDays[selectedDay].name}</Text>
+          <Text style={{fontSize: 15}}>{t('editDoctorProfile.timerPicker.subtitle')}</Text>
+
+          <View style={{ marginTop: 20, flexDirection: 'row', gap: 16, alignItems: 'center' }}>
+            <Text style={{ fontSize: 15, paddingLeft: 10 }}>
+              {t("editDoctorProfile.timerPicker.field1.label")}
+            </Text>
+            <View
+              style={{
+                backgroundColor: color.input,
+                width: "30%",
+                height: 40,
+                borderRadius: 100,
+                marginTop:  8,
+                elevation: 9,
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: 16,
+                borderWidth: errors.start && 1,
+                borderColor: errors.start && "orangered",
+              }}
+            >
+              <TextInput
+                value={field.start}
+                onChangeText={(text) =>
+                  setField((prev) => ({ ...prev, start: text }))
+                }
+                keyboardType="numeric"
+                onChange={() => onChange("start")}
+                style={{ marginLeft: 20, width: "100%" }}
+              />
+            </View>
+          </View>
+          {
+            errors.start && 
+            <Text style={{fontSize: 14, paddingLeft: 10, color: "orangered", marginTop: 10}}>
+              {errors.start}
+            </Text>
+          }
+          <View style={{ marginTop: 15, flexDirection: 'row', gap: 16, alignItems: 'center' }}>
+            <Text style={{ fontSize: 15, paddingLeft: 10 }}>
+              {t("editDoctorProfile.timerPicker.field2.label")}
+            </Text>
+            <View
+              style={{
+                backgroundColor: color.input,
+                width: "30%",
+                height: 40,
+                borderRadius: 100,
+                marginTop:  8,
+                elevation: 9,
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: 16,
+                borderWidth: errors.end && 1,
+                borderColor: errors.end && "orangered",
+              }}
+            >
+              <TextInput
+                value={field.end}
+                onChangeText={(text) =>
+                  setField((prev) => ({ ...prev, end: text }))
+                }
+                keyboardType="numeric"
+                onChange={() => onChange("end")}
+                style={{ marginLeft: 20, width: "100%" }}
+              />
+            </View>
+          </View>
+          {
+            errors.end && 
+            <Text style={{fontSize: 14, paddingLeft: 10, color: "orangered", marginTop: 10}}>
+              {errors.end}
+            </Text>
+          }
+          <TouchableOpacity
+              onPress={() => onSubmit()}
+              disabled={loading}
+              style={{
+                backgroundColor: color.base,
+                width: "100%",
+                height: 55,
+                borderRadius: 100,
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 35,
+                elevation: 9,
+              }}
+            >
+              <Text
+                style={{ color: "white", fontSize: 17, fontWeight: "bold" }}
+              >
+                {loading ? (
+                  <ActivityIndicator size="small" color="white" />
+                ) : (
+                  t("register.editButton")
+                )}
+              </Text>
+            </TouchableOpacity>
+        </View>      
+    </Modal>
   )
 }
 

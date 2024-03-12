@@ -43,7 +43,7 @@ function DoctorProfile({route}){
                             ?
                             <Image source={{uri: doctorInfos.profile_pic}} style={{height: '100%', width: '100%'}} />
                             :
-                            <FontAwesome name="user" size={40} color="rgb(156, 156, 156)" style={{position: 'absolute', bottom: -8}} />
+                            <FontAwesome name="user" size={100} color="rgb(156, 156, 156)" style={{position: 'absolute', bottom: -20}} />
                         }
                     </View>                
                 </View>
@@ -52,7 +52,7 @@ function DoctorProfile({route}){
                     <Text style={{fontSize: 15, marginTop: 3}}>{doctorInfos.doctor_category}</Text>
                     <View style={{flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 15}}>
                         <Ionicons name="star" size={19} color={color.base} />
-                        <Text style={{fontSize: 15, marginTop: 3}}>0.0</Text>
+                        <Text style={{fontSize: 15, marginTop: 3}}>5.0</Text>
                     </View>
                     <View style={{flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 8}}>
                         <Ionicons name="location-outline" size={23} color='#666666' />
@@ -83,8 +83,13 @@ function DoctorProfile({route}){
                         {
                             doctorInfos.doctor_working_days.map((day, index) => 
                                 day.selected &&
-                                <View key={index} style={{paddingVertical: 10, paddingHorizontal: 10, borderRadius: 15, borderWidth: 1, borderColor: "#dbdbdb"}}>
-                                    <Text style={{fontSize: 16}}>{day.name}</Text>
+                                <View key={index} style={{height: 55, overflow: 'hidden', width: 90, borderRadius: 10, borderWidth: 1, alignItems: 'center', borderColor: "#dbdbdb"}}>
+                                    <View style={{height: 25, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Text style={{fontSize: 16}}>{day.name}</Text>
+                                    </View>
+                                    <View style={{backgroundColor: color.base, height: 30, width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+                                        <Text style={{fontSize: 14}}>{`${day.schedule[0]}h - ${day.schedule[1]}h`}</Text>
+                                    </View>
                                 </View>
                         )}
                         </ScrollView>  

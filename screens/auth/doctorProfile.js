@@ -108,9 +108,10 @@ function DoctorProfile({route}){
                 }
             </View>
 
-            {/*Edit bottom container*/}
+            {/*bottom container*/}
             <Animated.View layout={LinearTransition.duration(300)} style={{position: 'absolute', bottom: 35, width: '90%', alignSelf: 'center'}}>
                 <TouchableOpacity
+                    onPress={()=> navigation.navigate('newAppointment_selectOptions', {doctorInfos})}
                     style={{
                         backgroundColor: color.base,
                         width: "100%",

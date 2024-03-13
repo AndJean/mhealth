@@ -235,5 +235,18 @@
   },
   "messages":{
     "title": "Messages"
+  },
+  "newAppointment":{
+    "title": "Book an appointment",
+    "subtitle": "Fill in all fields before continuing",
+    "field1": "Select the date",
+    "field2": "Please select your time",
+    "field3":{
+      "label":"Reason",
+      "placeholder": "Indicate the reason for the consultation"
+    },
+    "submitButton": "Booking"
   }
+  
+
 }

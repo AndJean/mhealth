@@ -8,9 +8,10 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "dev": "eas build --profile development --platform android",
-    "build-preview": "eas build --profile preview --platform android"
+    "preview": "eas build --profile preview --platform android"
   },
   "dependencies": {
+    "@dgreasi/react-native-time-slot-picker": "^0.2.0",
     "@expo/vector-icons": "^14.0.0",
     "@gorhom/bottom-sheet": "^4.6.1",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
@@ -22,6 +23,7 @@
     "@react-navigation/native": "^6.1.10",
     "@react-navigation/stack": "^6.3.21",
     "@realm/react": "^0.6.2",
+    "@stripe/stripe-react-native": "^0.37.0",
     "@supabase/storage-js": "^2.5.5",
     "@supabase/supabase-js": "^2.39.6",
     "axios": "^1.6.7",

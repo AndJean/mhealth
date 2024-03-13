@@ -25,6 +25,7 @@ import SearchByCategories from "./screens/auth/searchByCategories";
 import Consultation from "./screens/auth/consultation";
 import Messages from "./screens/auth/messages";
 import { SessionProvider } from "./providers/sessionProvider";
+import NewAppointmentSelectOptions from './screens/auth/newAppointment/selectOptions'
 import "./i18next";
 
 const Stack = createStackNavigator();
@@ -139,16 +140,8 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="consultation"
-            component={Consultation}
-            options={{
-              headerShown: false,
-              ...TransitionPresets.SlideFromRightIOS,
-            }}
-          />
-          <Stack.Screen
-            name="messages"
-            component={Messages}
+            name="newAppointment_selectOptions"
+            component={NewAppointmentSelectOptions}
             options={{
               headerShown: false,
               ...TransitionPresets.SlideFromRightIOS,

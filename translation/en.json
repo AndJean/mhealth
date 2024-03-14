@@ -115,7 +115,8 @@
       "unknown_error": "An unknown error has occured. Please try again.",
       "missing_value": "Missing value",
       "missing_working_day": "Please select a day",
-      "similar_values": "Similar information"
+      "similar_values": "Similar information",
+      "short_value": "Value too short"
     },
     "addMedicalConditionButton": "Add a medical condition",
     "nextButton": "Next",
@@ -179,7 +180,8 @@
     "profilePicUpdated": "Profile picture updated",
     "profileUpdated": "Profile updated",
     "unavailable_value": "Unavailable",
-    "nothingToShow": "Nothing to show"
+    "nothingToShow": "Nothing to show",
+    "loading": "Loading..."
 
   },
   "editlanguage": {
@@ -231,7 +233,12 @@
     "results_count": "corresponding doctors"
   },
   "consultation":{
-    "title": "Consultations"
+    "title": "Consultations",
+    "itemTitle": "appointment with the",
+    "itemDateText": "On the",
+    "itemTimeText": "at",
+    "completed": "Completed",
+    "notCompleted": "Uncompleted"
   },
   "messages":{
     "title": "Messages"
@@ -244,6 +251,10 @@
     "field3":{
       "label":"Reason",
       "placeholder": "Indicate the reason for the consultation"
+    },
+    "success_modal":{
+      "title": "Scheduled appointment",
+      "subtitle": "Your appointment has been scheduled"
     },
     "submitButton": "Booking"
   }

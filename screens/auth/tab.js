@@ -42,6 +42,7 @@ function Tab() {
         component={Consultation}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="document-text-outline"

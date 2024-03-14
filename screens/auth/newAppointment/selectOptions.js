@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react'
-import { View, Text, StatusBar, TouchableOpacity, TextInput, KeyboardAvoidingView, ScrollView } from "react-native"
+import { View, Text, StatusBar, TouchableOpacity, TextInput, KeyboardAvoidingView, ScrollView, ActivityIndicator, Dimensions } from "react-native"
 import { useTranslation } from "react-i18next"
 import { useNavigation } from "@react-navigation/native"
+import Modal from 'react-native-modal'
 import {
     IAppointment,
     IAvailableDates,
@@ -10,18 +11,24 @@ import {
 import color from "../../../constants/colors"
 import moment from 'moment'
 import { Ionicons } from '@expo/vector-icons'
+import { supabase } from '../../../supabase'
+import { useCurrentUser } from '../../../providers/sessionProvider'
 
 function NewAppointmentSelectOptions({route}){
     const {t} = useTranslation()
     const navigation = useNavigation()
+    const [loading, setLoading] = useState(false)
     const [availableDates, setAvailableDates] = useState([])
+    const [success, setSuccess] = useState(false)
     const [dateOfAppointment, setDateOfAppointment] = useState(null)
     const [unaivalableDate, setUnaivalableDate] = useState([])
+    const [serverError, setServerError] = useState(null)
+    const {user} = useCurrentUser()
     const [field, setField] = useState({
         reason: null
     })
     const [errors, setErrors] = useState({
-        reason: null
+        reason: null,
     })
 
     function onChange(name) {
@@ -31,7 +38,56 @@ function NewAppointmentSelectOptions({route}){
     }
 
     async function onSubmit(){
+        try{
+            let hasErrors = false
+            setErrors({
+                reason: null
+            })
+            setLoading(true)
 
+            if(field.reason){
+                if(field.reason.length < 10){
+                    hasErrors = true
+                    setErrors(prev => ({...prev, reason: t("register.errors.short_value")}))                    
+                }
+            }else{
+                hasErrors = true
+                setErrors(prev => ({...prev, reason: t("login.errors.missing_value")}))
+            }
+
+            /*
+                //payment validation
+            */
+
+            if(!hasErrors){
+                const data = {
+                    patient_id: user.id,
+                    doctor_id: route.params.doctorInfos.id,
+                    reason: field.reason.trim(),
+                    date: dateOfAppointment,
+                    price: route.params.doctorInfos.doctor_fees,
+                    medical_conditions: user.medical_conditions
+                }
+                const saveInformations = await supabase.from('consultations').insert(data)
+                if(saveInformations.error){
+                    throw Error(saveInformations.error.message)
+                }else{
+                    setSuccess(true)
+                }
+            }
+            setLoading(false)
+        }catch(error){
+            console.log(error)
+            setServerError(t('login.errors.unknown_error'))
+            setLoading(false)
+        }
+    }
+
+    
+    function onFinish(){
+        setSuccess(false)
+        setServerError(null)
+        navigation.replace('main', {screen: 'consultation'})
     }
 
     //a useEffect called when the screen is mounted to set the available dates of appointment
@@ -186,7 +242,7 @@ function NewAppointmentSelectOptions({route}){
                             </Text>
                         }
                     </View>  
-                    <View style={{height: 100}} />                 
+                    <View style={{height: 200}} />                 
                 </ScrollView>
             </KeyboardAvoidingView>
             {/*bottom container*/}
@@ -199,6 +255,8 @@ function NewAppointmentSelectOptions({route}){
                 </View>
 
                 <TouchableOpacity
+                    onPress={()=> onSubmit()}
+                    disabled={loading}
                     style={{
                         backgroundColor: color.base,
                         width: "65%",
@@ -209,16 +267,160 @@ function NewAppointmentSelectOptions({route}){
                         elevation: 9,
                     }}
                 >
-                    <Text style={{ color: "white", fontSize: 17, fontWeight: "bold" }}>
-                        {t("newAppointment.submitButton")}
-                    </Text>
+                    {
+                        loading ?
+                        <ActivityIndicator size='small' color='white' /> :
+                        <Text style={{ color: "white", fontSize: 17, fontWeight: "bold" }}>
+                            {t("newAppointment.submitButton")}
+                        </Text>                        
+                    }
                 </TouchableOpacity>
             </View>
+
+
+            {/*Modals */}
+            {success && <SuccessModal setShowModal={setSuccess} onFinish={onFinish} />}
+            {serverError && <ErrorModal error={serverError} setShowModal={setServerError} />}
         </View>
     )
 }
 
+function SuccessModal({ setShowModal, onFinish }) {
+    const { t } = useTranslation();
+    const navigation = useNavigation()
 
+    return (
+        <Modal
+            isVisible
+            backdropOpacity={0.4}
+            deviceHeight={Dimensions.get("screen").height}
+            backdropTransitionOutTiming={0}
+            useNativeDriver
+            statusBarTranslucent
+        >
+        <View
+            style={{
+                height: 400,
+                width: "100%",
+                borderRadius: 30,
+                paddingHorizontal: 30,
+                paddingVertical: 15,
+                alignItems: "center",
+                backgroundColor: "white",
+            }}
+        >
+            <View
+                style={{
+                    marginTop: 40,
+                    borderRadius: 120,
+                    paddingHorizontal: 15,
+                    paddingVertical: 15,
+                    backgroundColor: "rgb(238, 238, 238)",
+                }}
+            >
+            <Ionicons name="checkmark-sharp" size={80} color={color.base} />
+            </View>
+            <Text
+                style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    marginTop: 35,
+                    textAlign: "center",
+                }}
+            >
+                {t("newAppointment.success_modal.title")}
+            </Text>
+            <Text
+                style={{
+                    fontSize: 16,
+                    marginTop: 10,
+                    textAlign: "center",
+                    opacity: 0.7,
+                }}
+            >
+                {t("newAppointment.success_modal.subtitle")}
+            </Text>
+            <TouchableOpacity
+                onPress={()=> onFinish()}
+                style={{
+                    backgroundColor: color.base,
+                    width: "65%",
+                    height: 55,
+                    borderRadius: 100,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    elevation: 9,
+                    marginTop: 20
+                }}
+            >
+                <Text style={{ color: "white", fontSize: 17, fontWeight: "bold" }}>
+                    {t("register.finishButton")}
+                </Text>   
+            </TouchableOpacity>
+        </View>
+        </Modal>
+    );
+}
+function ErrorModal({ setShowModal, error }) {
+    const { t } = useTranslation();
+
+    return (
+    <Modal
+        isVisible
+        onBackdropPress={() => setShowModal(null)}
+        backdropOpacity={0.4}
+        deviceHeight={Dimensions.get("screen").height}
+        backdropTransitionOutTiming={0}
+        useNativeDriver
+        statusBarTranslucent
+    >
+        <View
+        style={{
+            height: 400,
+            width: "100%",
+            borderRadius: 30,
+            paddingHorizontal: 30,
+            paddingVertical: 15,
+            alignItems: "center",
+            backgroundColor: "white",
+        }}
+        >
+        <View
+            style={{
+            marginTop: 40,
+            borderRadius: 120,
+            paddingHorizontal: 15,
+            paddingVertical: 15,
+            backgroundColor: "rgb(238, 238, 238)",
+            }}
+        >
+            <Ionicons name="alert-outline" size={80} color="orangered" />
+        </View>
+        <Text
+            style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            marginTop: 35,
+            textAlign: "center",
+            }}
+        >
+            {t("register.error_modal.title")}
+        </Text>
+        <Text
+            style={{
+            fontSize: 16,
+            marginTop: 10,
+            textAlign: "center",
+            opacity: 0.7,
+            }}
+        >
+            {error || ""}
+        </Text>
+        </View>
+    </Modal>
+    );
+}
+  
 
 
 export default NewAppointmentSelectOptions

@@ -1,21 +1,38 @@
 /** @format */
 
 import { useTranslation } from "react-i18next";
-import { View, Text, StatusBar, TouchableOpacity, Image} from "react-native";
+import { View, Text, StatusBar, TouchableOpacity, Image, ActivityIndicator, FlatList} from "react-native";
 import {Ionicons} from '@expo/vector-icons'
 import color from "../../constants/colors";
 import {useState, useEffect} from 'react'
+import { supabase } from "../../supabase";
+import { useCurrentUser } from "../../providers/sessionProvider";
 
 function Consultation() {
   const {t} = useTranslation()
+  const {user} = useCurrentUser()
+  const [loading, setLoading] = useState(false)
   const [consultations, setConsultations] = useState([])
 
   async function getConsultations(){
     //get all consultations with supabase
+    try {
+      setLoading(true)
+      const req = await supabase.from('consultations').select('*').eq('patient_id', user.id)
+      if(req.error){
+        throw Error(req.error.message)
+      }
+      setConsultations(req.data)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+    }
   }
 
   useEffect(()=>{
-    //getConsultations()
+    if(consultations.length === 0)
+    getConsultations()      
   }, [])
 
   return (
@@ -33,20 +50,53 @@ function Consultation() {
       </View>
 
       {
+        !loading ?
         consultations.length > 0 ?
         <View style={{flex: 1}}>
-
+            <FlatList
+              data={consultations}
+              renderItem={({item})=> <RenderItem item={item} />}
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+              overScrollMode="never"
+              contentContainerStyle={{gap: 12, paddingHorizontal: 25}}
+            />
         </View> :
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Image source={require('../../assets/Images/Icons/consultant.png')} style={{height: 100, width: 100, opacity: 0.4}} />
             <Text style={{fontSize: 15, opacity: 0.6, marginTop: 7}}>
               {t('others.nothingToShow')}
             </Text> 
-        </View> 
+        </View> :
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <ActivityIndicator size='small' color={color.base} />
+          <Text style={{fontSize: 15, opacity: 0.6, marginTop: 7}}>
+            {t('others.loading')}
+          </Text> 
+        </View>
       }
 
     </View>
   );
+}
+
+
+function RenderItem({item}){
+  const {t} = useTranslation()
+  return (
+    <View style={{width: '100%', height: 100, flexDirection: 'row', gap: 20, paddingVertical: 15, borderBottomWidth: 0.7, borderBottomColor: 'rgb(233, 233, 233)', alignItems: 'center'}}>
+      <View style={{height: '100%', width: 70, backgroundColor: color.input, borderRadius: 10}}>
+
+      </View>
+      <View>
+          <Text style={{fontSize: 15, fontWeight: 'bold'}}>{item.doctor_category}</Text>
+          <Text style={{fontSize: 14, marginTop: 3}}>{t('consultation.itemDateText')} {new Date(item.date.appointmentDate).toLocaleDateString()} {t('consultation.itemTimeText')} {item.date.appointmentTime}</Text>
+          <View style={{backgroundColor: color.input, width: 100, paddingVertical: 3, borderRadius: 100, alignItems: 'center', marginTop: 8}}>
+            <Text style={{fontSize: 13}}>{item.completed ? t('consultation.completed') : t('consultation.notCompleted')}</Text>
+          </View>
+      </View>
+    </View>
+  )
 }
 
 export default Consultation;

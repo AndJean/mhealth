@@ -252,12 +252,77 @@
       "label":"Reason",
       "placeholder": "Indicate the reason for the consultation"
     },
+    "field4":{
+      "label":"Payment Method",
+      "changeButton":"Change"
+    },
+    "noPaymentMethod":"No payment method registered",
     "success_modal":{
       "title": "Scheduled appointment",
       "subtitle": "Your appointment has been scheduled"
     },
     "submitButton": "Booking"
+  },
+  "paymentSettings":{
+    "title": "Payment settings",
+    "addButton": "Add payment method",
+    "editCard": "Edit Card",
+    "setAsPreferred": "Set as Preferred",
+    "deleteCard": "Delete Card",
+    "selected": "Preferred",
+    "cardUpdated": "Card updated",
+    "cardDeleted": "Card deleted"
+  },
+  "newPaymentMethod":{
+    "title": "Add payment method",
+    "field1": {
+      "label":"Name on card",
+      "placeholder": "Cardholder name"
+    },
+    "field2": {
+      "label": "Card number",
+      "placeholder": "Enter 16 digits number"
+    },
+    "field3": {
+      "label": "Expiry date",
+      "placeholder": "MM/YY"
+    },
+    "field4": {
+      "label": "CVV",
+      "placeholder": "Enter CVV"
+    },
+    "submitButton": "Save",
+    "saved": "Payment method saved"
+  },
+  "consultationDetails": {
+    "title": "Consultation Details",
+    "title2": "Consultation of",
+    "field1": "Schedule",
+    "field2": "Reason",
+    "field3":{
+      "label": "Doctor informations",
+      "fullName": "Full name",
+      "category": "Category",
+      "phone": "Phone number"
+    },
+    "field4": "Price",
+    "field5": {
+      "label": "Doctor diagnostic",
+      "noDiagnostic": "No diagnostic yet"
+    },
+    "field6": {
+      "label": "Treatment",
+      "noDiagnostic": "No treatment yet"
+    },
+    "buttonMark": "Note the doctor"
+  },
+"savedCard": {
+  "title": "Saved Card",
+  "options1": {
+    "title": "Set as Preferred"
+  },
+  "options2": {
+    "title": "Remove this payment method"
   }
-  
-
+}
 }

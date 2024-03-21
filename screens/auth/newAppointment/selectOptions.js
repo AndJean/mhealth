@@ -3,6 +3,7 @@ import { View, Text, StatusBar, TouchableOpacity, TextInput, KeyboardAvoidingVie
 import { useTranslation } from "react-i18next"
 import { useNavigation } from "@react-navigation/native"
 import Modal from 'react-native-modal'
+import { CardIcon } from '../paymentSettings/newPaymentSettings'
 import {
     IAppointment,
     IAvailableDates,
@@ -21,6 +22,7 @@ function NewAppointmentSelectOptions({route}){
     const [availableDates, setAvailableDates] = useState([])
     const [success, setSuccess] = useState(false)
     const [dateOfAppointment, setDateOfAppointment] = useState(null)
+    const [scheduledAppointment, setScheduledAppointment] = useState(null)
     const [unaivalableDate, setUnaivalableDate] = useState([])
     const [serverError, setServerError] = useState(null)
     const {user} = useCurrentUser()
@@ -29,6 +31,7 @@ function NewAppointmentSelectOptions({route}){
     })
     const [errors, setErrors] = useState({
         reason: null,
+        payment_method: null
     })
 
     function onChange(name) {
@@ -55,9 +58,10 @@ function NewAppointmentSelectOptions({route}){
                 setErrors(prev => ({...prev, reason: t("login.errors.missing_value")}))
             }
 
-            /*
-                //payment validation
-            */
+            if(!user.payment_methods){
+                hasErrors = true
+                setErrors(prev => ({...prev, payment_method: t("login.errors.missing_value")}))
+            }
 
             if(!hasErrors){
                 const data = {
@@ -88,6 +92,20 @@ function NewAppointmentSelectOptions({route}){
         setSuccess(false)
         setServerError(null)
         navigation.replace('main', {screen: 'consultation'})
+    }
+
+    async function getAllDoctorAppointment(){
+        try {
+            const getData = await supabase.from('consultations').select('date').eq('doctor_id', route.params.doctorInfos.id)
+            if(getData.error){
+                throw Error(getData.error.message)
+            }
+
+            const incomingAppointment = getData.data
+            setScheduledAppointment(incomingAppointment)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     //a useEffect called when the screen is mounted to set the available dates of appointment
@@ -157,6 +175,13 @@ function NewAppointmentSelectOptions({route}){
             setAvailableDates(formated_working_days)
         }
     }, [])
+
+    
+    useEffect(()=>{
+        getAllDoctorAppointment()
+    }, [])
+
+
 
     return (
         <View style={{flex: 1, backgroundColor: 'white', paddingTop: 50,}}>
@@ -242,9 +267,63 @@ function NewAppointmentSelectOptions({route}){
                             </Text>
                         }
                     </View>  
+
+                    <View style={{marginTop: 20, paddingHorizontal: 25}}>
+                        <Text style={{ fontSize: 15, paddingLeft: 10 }}>
+                            {t("newAppointment.field4.label")}
+                        </Text>
+                        <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 8, height: 65, width: '100%', borderRadius: 100, backgroundColor: color.input, elevation: 9,}}>
+                            <View style={{width: '80%', paddingLeft: 25, paddingVertical: 10}}>
+                                {
+                                    user.payment_methods ?
+                                    <View style={{width: '100%'}}>
+                                        {
+                                            user.payment_methods.map((card)=>
+                                                card.selected && 
+                                                <View style={{flexDirection: 'row', alignItems: 'center', gap: 15}}>
+                                                    <View>
+                                                        {card.type && <CardIcon cardType={card.type} />}
+                                                    </View>
+                                                    <View style={{width: '60%'}}>
+                                                        <Text style={{fontSize: 15, fontWeight: 'bold'}}>{`${card.cardNumber.slice(0, 4)} **** ****`}</Text>
+                                                    </View>                                                     
+                                                </View>
+                                            )
+                                        }
+                                    </View> :
+                                    <View style={{width: '100%'}}>
+                                        <Text style={{fontSize: 15, opacity: 0.5}}>
+                                            {t("newAppointment.noPaymentMethod")}
+                                        </Text>                                          
+                                    </View>
+                                }
+                            </View>
+                            <TouchableOpacity onPress={()=> navigation.navigate('paymentSettingsMain')}>
+                                <Text style={{fontSize: 15}}>
+                                    {t("newAppointment.field4.changeButton")}
+                                </Text>                                
+                            </TouchableOpacity>
+                        </View>
+                        {
+                            errors.payment_method &&
+                            <Text
+                                style={{
+                                    fontSize: 14,
+                                    paddingLeft: 10,
+                                    color: "orangered",
+                                    marginTop: 10,
+                                }}
+                            >
+                                {errors.payment_method}
+                            </Text>
+                        }
+                    </View>
+
                     <View style={{height: 200}} />                 
                 </ScrollView>
             </KeyboardAvoidingView>
+
+
             {/*bottom container*/}
             <View style={{position: 'absolute', height: 80, paddingHorizontal: 15, bottom: 0, width: '100%', alignSelf: 'center', backgroundColor: 'white', flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{width: '30%', alignItems: 'center', justifyContent: 'center'}}>

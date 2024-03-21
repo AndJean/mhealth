@@ -7,6 +7,7 @@ import color from "../../constants/colors";
 import {useState, useEffect} from 'react'
 import { supabase } from "../../supabase";
 import { useCurrentUser } from "../../providers/sessionProvider";
+import { useNavigation } from '@react-navigation/native';
 
 function Consultation() {
   const {t} = useTranslation()
@@ -80,21 +81,99 @@ function Consultation() {
   );
 }
 
-
 function RenderItem({item}){
   const {t} = useTranslation()
+  const navigation = useNavigation()
   return (
     <View style={{width: '100%', height: 100, flexDirection: 'row', gap: 20, paddingVertical: 15, borderBottomWidth: 0.7, borderBottomColor: 'rgb(233, 233, 233)', alignItems: 'center'}}>
-      <View style={{height: '100%', width: 70, backgroundColor: color.input, borderRadius: 10}}>
-
+      <View style={{height: '100%', width: 70, backgroundColor: color.input, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
+        <DoctorCategoryIcon category={item.doctor_category} />
       </View>
-      <View>
+      <TouchableOpacity onPress={()=> navigation.navigate('consultationDetails', {consultation: item})}>
           <Text style={{fontSize: 15, fontWeight: 'bold'}}>{item.doctor_category}</Text>
           <Text style={{fontSize: 14, marginTop: 3}}>{t('consultation.itemDateText')} {new Date(item.date.appointmentDate).toLocaleDateString()} {t('consultation.itemTimeText')} {item.date.appointmentTime}</Text>
           <View style={{backgroundColor: color.input, width: 100, paddingVertical: 3, borderRadius: 100, alignItems: 'center', marginTop: 8}}>
             <Text style={{fontSize: 13}}>{item.completed ? t('consultation.completed') : t('consultation.notCompleted')}</Text>
           </View>
-      </View>
+      </TouchableOpacity>
+    </View>
+  )
+}
+
+export function DoctorCategoryIcon({ category }) {
+  const [categoryImage, setCategoryImage] = useState(null);
+
+  useEffect(() => {
+    switch (category) {
+      case 'General Practitioner':
+        setCategoryImage(
+          <Image
+            source={require('../../assets/Images/Icons/medical-team.png')}
+            style={{ height: 50, width: 50 }}
+          />
+        );
+        break;
+      case 'Pediatrician':
+        setCategoryImage(
+          <Image
+            source={require('../../assets/Images/Icons/pediatrics.png')}
+            style={{ height: 50, width: 50 }}
+          />
+        );
+        break;
+      case 'Dermatology':
+        setCategoryImage(
+          <Image
+            source={require('../../assets/Images/Icons/dermatologist.png')}
+            style={{ height: 50, width: 50 }}
+          />
+        );
+        break;
+      case 'Dentist':
+        setCategoryImage(
+          <Image
+            source={require('../../assets/Images/Icons/dentist.png')}
+            style={{ height: 50, width: 50 }}
+          />
+        );
+        break;
+      case 'Cardiology':
+        setCategoryImage(
+          <Image
+            source={require('../../assets/Images/Icons/cardiologist.png')}
+            style={{ height: 50, width: 50 }}
+          />
+        );
+        break;
+      case 'Gynécology':
+        setCategoryImage(
+          <Image
+            source={require('../../assets/Images/Icons/gynecologist.png')}
+            style={{ height: 50, width: 50 }}
+          />
+        );
+        break;
+      case 'Ophtalmology':
+        setCategoryImage(
+          <Image
+            source={require('../../assets/Images/Icons/ophthalmologist.png')}
+            style={{ height: 50, width: 50 }}
+          />
+        );
+        break;
+      default:
+        setCategoryImage(null);
+        break;
+    }
+  }, [category]);
+
+  if (!categoryImage) {
+    return <View />;
+  }
+
+  return (
+    <View>
+      {categoryImage}
     </View>
   )
 }

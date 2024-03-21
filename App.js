@@ -24,6 +24,9 @@ import DoctorProfile from "./screens/auth/doctorProfile";
 import SearchByCategories from "./screens/auth/searchByCategories";
 import Consultation from "./screens/auth/consultation";
 import Messages from "./screens/auth/messages";
+import PaymentSettingsMain from "./screens/auth/paymentSettings/main";
+import NewPaymentSettings from "./screens/auth/paymentSettings/newPaymentSettings";
+import ConsultationDetails from "./screens/auth/consultationDetails";
 import { SessionProvider } from "./providers/sessionProvider";
 import NewAppointmentSelectOptions from './screens/auth/newAppointment/selectOptions'
 import "./i18next";
@@ -142,6 +145,30 @@ export default function App() {
           <Stack.Screen
             name="newAppointment_selectOptions"
             component={NewAppointmentSelectOptions}
+            options={{
+              headerShown: false,
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="paymentSettingsMain"
+            component={PaymentSettingsMain}
+            options={{
+              headerShown: false,
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="newPaymentSettings"
+            component={NewPaymentSettings}
+            options={{
+              headerShown: false,
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="consultationDetails"
+            component={ConsultationDetails}
             options={{
               headerShown: false,
               ...TransitionPresets.SlideFromRightIOS,

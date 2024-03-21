@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 
+
 function Home() {
   const { t } = useTranslation();
   const [field, setField] = useState({

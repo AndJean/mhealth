@@ -105,7 +105,7 @@ function Profile() {
               </View>
             </TouchableOpacity>
             {/**Big container Payment setting */}
-            <View style={{flexDirection:"row", width:'100%', height: 64, marginBottom:20, padding: 3}}> 
+            <TouchableOpacity onPress={()=> navigation.navigate('paymentSettingsMain')} style={{flexDirection:"row", width:'100%', height: 64, marginBottom:20, padding: 3}}> 
               {/**Inicon on the left, inside Big container */}   
               <View style={{width:'20%', height:'100%', alignItems: 'center', justifyContent: 'center'}} >
                   <View style={{backgroundColor: 'rgb(219, 219, 219)', height: '100%', width: '80%', borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
@@ -124,7 +124,7 @@ function Profile() {
                     <Ionicons name="chevron-forward" size={25} color='white' />
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
             {/**Big container privacy settings*/}
             <View style={{flexDirection:"row", width:'100%', height: 64, marginBottom:20, padding: 3}}> 
               {/**Inicon on the left, inside Big container */}   

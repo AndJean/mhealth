@@ -229,6 +229,16 @@
     "empty_about": "No description",
     "appointment_button": "Book appointment"
   },
+  "patientProfile":{
+    "title": "Patient details",
+    "phone": "Phone number",
+    "gender": "Gender",
+    "bloodType": "BloodType",
+    "weight": "Weight",
+    "birth": "Birth",
+    "medicalConditions": "Medical Conditions",
+    "historyButton": "Access patient history"
+  },
   "search":{
     "results_count": "corresponding doctors"
   },
@@ -297,13 +307,15 @@
   "consultationDetails": {
     "title": "Consultation Details",
     "title2": "Consultation of",
+    "field0": "Consultation type",
     "field1": "Schedule",
     "field2": "Reason",
     "field3":{
       "label": "Doctor informations",
       "fullName": "Full name",
       "category": "Category",
-      "phone": "Phone number"
+      "phone": "Phone number",
+      "address": "Address"
     },
     "field4": "Price",
     "field5": {
@@ -314,15 +326,25 @@
       "label": "Treatment",
       "noDiagnostic": "No treatment yet"
     },
-    "buttonMark": "Note the doctor"
+    "field7": "Patient",
+    "buttonRate": "Rate the doctor",
+    "buttonStart": "Start consultation",
+    "notAvailable": "Not available"
   },
-"savedCard": {
-  "title": "Saved Card",
-  "options1": {
-    "title": "Set as Preferred"
+  "savedCard": {
+    "title": "Saved Card",
+    "options1": {
+      "title": "Set as Preferred"
+    },
+    "options2": {
+      "title": "Remove this payment method"
+    }
   },
-  "options2": {
-    "title": "Remove this payment method"
+  "consultationReminderModal":{
+    "title": "You have a consultation scheduled",
+    "text1": "Hey, you have a consultation scheduled at",
+    "text2": "with",
+    "button": "Start consultation"
   }
 }
-}
+

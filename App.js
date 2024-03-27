@@ -21,6 +21,7 @@ import EditProfileMain from "./screens/auth/editProfile/main";
 import EditLanguage from "./screens/auth/editProfile/languages";
 import Search from "./screens/auth/search";
 import DoctorProfile from "./screens/auth/doctorProfile";
+import PatientProfile from "./screens/auth/patientProfile";
 import SearchByCategories from "./screens/auth/searchByCategories";
 import Consultation from "./screens/auth/consultation";
 import Messages from "./screens/auth/messages";
@@ -169,6 +170,14 @@ export default function App() {
           <Stack.Screen
             name="consultationDetails"
             component={ConsultationDetails}
+            options={{
+              headerShown: false,
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="patientProfile"
+            component={PatientProfile}
             options={{
               headerShown: false,
               ...TransitionPresets.SlideFromRightIOS,

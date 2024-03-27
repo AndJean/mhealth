@@ -19,11 +19,19 @@ function Consultation() {
     //get all consultations with supabase
     try {
       setLoading(true)
-      const req = await supabase.from('consultations').select('*').eq('patient_id', user.id)
-      if(req.error){
-        throw Error(req.error.message)
+      let req = null
+      if(user.type === 'Patient'){
+        req = await supabase.from('consultations').select('*').eq('patient_id', user.id)
+      }else{
+        req = await supabase.from('consultations').select('*').eq('doctor_id', user.id)
       }
-      setConsultations(req.data)
+
+      if(req){
+        if(req.error){
+          throw Error(req.error.message)
+        }
+        setConsultations(req.data)        
+      }
       setLoading(false)
     } catch (error) {
       console.log(error)
@@ -84,13 +92,14 @@ function Consultation() {
 function RenderItem({item}){
   const {t} = useTranslation()
   const navigation = useNavigation()
+  const {user} = useCurrentUser()
   return (
     <View style={{width: '100%', height: 100, flexDirection: 'row', gap: 20, paddingVertical: 15, borderBottomWidth: 0.7, borderBottomColor: 'rgb(233, 233, 233)', alignItems: 'center'}}>
       <View style={{height: '100%', width: 70, backgroundColor: color.input, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
         <DoctorCategoryIcon category={item.doctor_category} />
       </View>
       <TouchableOpacity onPress={()=> navigation.navigate('consultationDetails', {consultation: item})}>
-          <Text style={{fontSize: 15, fontWeight: 'bold'}}>{item.doctor_category}</Text>
+          {user.type === 'Patient' && <Text style={{fontSize: 15, fontWeight: 'bold'}}>{item.doctor_category}</Text>}
           <Text style={{fontSize: 14, marginTop: 3}}>{t('consultation.itemDateText')} {new Date(item.date.appointmentDate).toLocaleDateString()} {t('consultation.itemTimeText')} {item.date.appointmentTime}</Text>
           <View style={{backgroundColor: color.input, width: 100, paddingVertical: 3, borderRadius: 100, alignItems: 'center', marginTop: 8}}>
             <Text style={{fontSize: 13}}>{item.completed ? t('consultation.completed') : t('consultation.notCompleted')}</Text>

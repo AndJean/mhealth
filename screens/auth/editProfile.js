@@ -2,17 +2,17 @@ import { View, TouchableOpacity, Text, TextInput, ActivityIndicator, ToastAndroi
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import color from "../../../constants/colors";
+import color from "../../constants/colors";
 import Animated, {LinearTransition} from 'react-native-reanimated'
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { useCurrentUser } from "../../../providers/sessionProvider";
-import { supabase } from "../../../supabase";
+import { useCurrentUser } from "../../providers/sessionProvider";
+import { supabase } from "../../supabase";
 import validator from "validator";
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet'
-import { SessionProvider } from "../../../providers/sessionProvider";
+import { SessionProvider } from "../../providers/sessionProvider";
 import Modal from "react-native-modal";
 
-function EditProfileMain(){
+function EditProfile(){
   const {user} = useCurrentUser()
 
   return (
@@ -992,4 +992,4 @@ function TimePicker({closeTimePicker, selectedDay, setSelectedDay, doctorWorking
   )
 }
 
-export default EditProfileMain
+export default EditProfile

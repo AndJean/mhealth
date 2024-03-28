@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image, ScrollView} from "react-native";
-import { useCurrentUser } from "../../providers/sessionProvider";
+import { useCurrentUser } from "../../../providers/sessionProvider";
 import { useNavigation } from "@react-navigation/native";
 import Animated, {LinearTransition} from "react-native-reanimated"
 import { useTranslation } from "react-i18next";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import color from "../../constants/colors";
+import color from "../../../constants/colors";
 
 
-function PatientProfile({route}){
+function Index({route}){
     const {t} = useTranslation();
     const navigation = useNavigation();
     const [patientInfos, setPatientInfos] = useState(route.params.patientInfos)
@@ -95,4 +95,4 @@ function PatientProfile({route}){
 }
 
 
-export default PatientProfile
+export default Index

@@ -3,10 +3,10 @@
 import { useTranslation } from "react-i18next";
 import { View, Text, StatusBar, TouchableOpacity, Image} from "react-native";
 import {Ionicons} from '@expo/vector-icons'
-import color from "../../constants/colors";
+import color from "../../../../constants/colors"
 import {useState, useEffect} from 'react'
 
-function Messages() {
+function Index() {
   const {t} = useTranslation()
   const [messages, setmessages] = useState([])
 
@@ -38,7 +38,7 @@ function Messages() {
 
         </View> :
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Image source={require('../../assets/Images/Icons/messagerie-mobile.png')} style={{height: 100, width: 100, opacity: 0.4}} />
+            <Image source={require('../../../../assets/Images/Icons/messagerie-mobile.png')} style={{height: 100, width: 100, opacity: 0.4}} />
             <Text style={{fontSize: 15, opacity: 0.6, marginTop: 7}}>
               {t('others.nothingToShow')}
             </Text> 
@@ -49,4 +49,4 @@ function Messages() {
   );
 }
 
-export default Messages;
+export default Index

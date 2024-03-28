@@ -1,21 +1,28 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, Image, ScrollView} from "react-native";
-import { useCurrentUser } from "../../providers/sessionProvider";
+import { useCurrentUser } from "../../../providers/sessionProvider";
 import { useNavigation } from "@react-navigation/native";
 import Animated, {LinearTransition} from "react-native-reanimated"
 import { useTranslation } from "react-i18next";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import color from "../../constants/colors";
+import color from "../../../constants/colors";
 
 
 
 
-function DoctorProfile({route}){
+function Index({route}){
     const {t} = useTranslation();
     const navigation = useNavigation();
-    const [doctorInfos, setDoctorInfos] = useState(route.params.doctor)
+    const [doctorInfos, setDoctorInfos] = useState(null)
+
+    useEffect(()=>{
+        console.log(route.params)
+    }, [route])
 
 
+    if(!doctorInfos){
+        return null
+    }
 
     return(
         <View style={{flex:1, backgroundColor:'white', paddingHorizontal:25}}>
@@ -111,7 +118,7 @@ function DoctorProfile({route}){
             {/*bottom container*/}
             <Animated.View layout={LinearTransition.duration(300)} style={{position: 'absolute', bottom: 35, width: '90%', alignSelf: 'center'}}>
                 <TouchableOpacity
-                    onPress={()=> navigation.navigate('newAppointment_selectOptions', {doctorInfos})}
+                    onPress={()=> navigation.navigate('newAppointment', {screen: 'index', doctorInfos})}
                     style={{
                         backgroundColor: color.base,
                         width: "100%",
@@ -131,4 +138,4 @@ function DoctorProfile({route}){
         </View>
     )
 }
-export default DoctorProfile;
+export default Index;

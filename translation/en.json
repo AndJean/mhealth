@@ -237,7 +237,7 @@
     "weight": "Weight",
     "birth": "Birth",
     "medicalConditions": "Medical Conditions",
-    "historyButton": "Access patient history"
+    "medicalHistoryButton": "Access patient history"
   },
   "search":{
     "results_count": "corresponding doctors"

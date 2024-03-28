@@ -3,13 +3,13 @@
 import { useTranslation } from "react-i18next";
 import { View, Text, StatusBar, TouchableOpacity, Image, ActivityIndicator, FlatList} from "react-native";
 import {Ionicons} from '@expo/vector-icons'
-import color from "../../constants/colors";
+import color from "../../../../constants/colors";
 import {useState, useEffect} from 'react'
-import { supabase } from "../../supabase";
-import { useCurrentUser } from "../../providers/sessionProvider";
+import { supabase } from "../../../../supabase";
+import { useCurrentUser } from "../../../../providers/sessionProvider";
 import { useNavigation } from '@react-navigation/native';
 
-function Consultation() {
+function Index() {
   const {t} = useTranslation()
   const {user} = useCurrentUser()
   const [loading, setLoading] = useState(false)
@@ -72,7 +72,7 @@ function Consultation() {
             />
         </View> :
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Image source={require('../../assets/Images/Icons/consultant.png')} style={{height: 100, width: 100, opacity: 0.4}} />
+            <Image source={require('../../../../assets/Images/Icons/consultant.png')} style={{height: 100, width: 100, opacity: 0.4}} />
             <Text style={{fontSize: 15, opacity: 0.6, marginTop: 7}}>
               {t('others.nothingToShow')}
             </Text> 
@@ -117,7 +117,7 @@ export function DoctorCategoryIcon({ category }) {
       case 'General Practitioner':
         setCategoryImage(
           <Image
-            source={require('../../assets/Images/Icons/medical-team.png')}
+            source={require('../../../../assets/Images/Icons/medical-team.png')}
             style={{ height: 50, width: 50 }}
           />
         );
@@ -125,7 +125,7 @@ export function DoctorCategoryIcon({ category }) {
       case 'Pediatrician':
         setCategoryImage(
           <Image
-            source={require('../../assets/Images/Icons/pediatrics.png')}
+            source={require('../../../../assets/Images/Icons/pediatrics.png')}
             style={{ height: 50, width: 50 }}
           />
         );
@@ -133,7 +133,7 @@ export function DoctorCategoryIcon({ category }) {
       case 'Dermatology':
         setCategoryImage(
           <Image
-            source={require('../../assets/Images/Icons/dermatologist.png')}
+            source={require('../../../../assets/Images/Icons/dermatologist.png')}
             style={{ height: 50, width: 50 }}
           />
         );
@@ -141,7 +141,7 @@ export function DoctorCategoryIcon({ category }) {
       case 'Dentist':
         setCategoryImage(
           <Image
-            source={require('../../assets/Images/Icons/dentist.png')}
+            source={require('../../../../assets/Images/Icons/dentist.png')}
             style={{ height: 50, width: 50 }}
           />
         );
@@ -149,7 +149,7 @@ export function DoctorCategoryIcon({ category }) {
       case 'Cardiology':
         setCategoryImage(
           <Image
-            source={require('../../assets/Images/Icons/cardiologist.png')}
+            source={require('../../../../assets/Images/Icons/cardiologist.png')}
             style={{ height: 50, width: 50 }}
           />
         );
@@ -157,7 +157,7 @@ export function DoctorCategoryIcon({ category }) {
       case 'Gynécology':
         setCategoryImage(
           <Image
-            source={require('../../assets/Images/Icons/gynecologist.png')}
+            source={require('../../../../assets/Images/Icons/gynecologist.png')}
             style={{ height: 50, width: 50 }}
           />
         );
@@ -165,7 +165,7 @@ export function DoctorCategoryIcon({ category }) {
       case 'Ophtalmology':
         setCategoryImage(
           <Image
-            source={require('../../assets/Images/Icons/ophthalmologist.png')}
+            source={require('../../../../assets/Images/Icons/ophthalmologist.png')}
             style={{ height: 50, width: 50 }}
           />
         );
@@ -187,4 +187,4 @@ export function DoctorCategoryIcon({ category }) {
   )
 }
 
-export default Consultation;
+export default Index;

@@ -3,7 +3,7 @@ import { View, Text, StatusBar, TouchableOpacity, TextInput, KeyboardAvoidingVie
 import { useTranslation } from "react-i18next"
 import { useNavigation } from "@react-navigation/native"
 import Modal from 'react-native-modal'
-import { CardIcon } from '../paymentSettings/newPaymentSettings'
+import { CardIcon } from '../paymentSettings/newPaymentMethod'
 import {
     IAppointment,
     IAvailableDates,
@@ -15,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { supabase } from '../../../supabase'
 import { useCurrentUser } from '../../../providers/sessionProvider'
 
-function NewAppointmentSelectOptions({route}){
+function NewAppointment({route}){
     const {t} = useTranslation()
     const navigation = useNavigation()
     const [loading, setLoading] = useState(false)
@@ -502,4 +502,4 @@ function ErrorModal({ setShowModal, error }) {
   
 
 
-export default NewAppointmentSelectOptions
+export default NewAppointment

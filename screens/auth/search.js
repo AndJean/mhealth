@@ -70,7 +70,7 @@ function Search() {
             <ScrollView showsHorizontalScrollIndicator={false} bounces={false} overScrollMode='never' style={{marginTop: 15}}>
                 {
                     searchResults.map((item, index) => 
-                        <TouchableOpacity key={index} onPress={()=> navigation.navigate('doctorProfile', {doctor: item})} style={{width: '100%', height: 80, flexDirection: 'row', gap: 20, paddingVertical: 15, borderBottomWidth: 0.7, borderBottomColor: 'rgb(233, 233, 233)'}}>
+                        <TouchableOpacity key={index} onPress={()=> navigation.navigate('doctorProfileStack', {doctor: item})} style={{width: '100%', height: 80, flexDirection: 'row', gap: 20, paddingVertical: 15, borderBottomWidth: 0.7, borderBottomColor: 'rgb(233, 233, 233)'}}>
                             {/*profile pic*/}
                             <View style={{height:45, width:45, borderRadius:100, backgroundColor:color.input, overflow: 'hidden', alignItems: 'center', justifyContent: 'center'}}>
                                 {

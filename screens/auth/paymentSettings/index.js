@@ -8,11 +8,11 @@ import { supabase } from '../../../supabase';
 import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '../../../providers/sessionProvider';
 import Checkbox from 'expo-checkbox'
-import { CardIcon } from './newPaymentSettings';
+import { CardIcon } from './newPaymentMethod';
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
 import color from '../../../constants/colors';
 
-function PaymentSettingsMain(){
+function Index(){
     const [loading, setLoading] = useState(false)
     const navigation = useNavigation()
     const [selectedCard, setSelectedCard] = useState(null)
@@ -66,7 +66,7 @@ function PaymentSettingsMain(){
             {/*bottom container*/}
             <View style={{position: 'absolute', bottom: 20, width: '90%', alignSelf: 'center'}}>
                 <TouchableOpacity
-                    onPress={()=> navigation.navigate('newPaymentSettings')}
+                    onPress={()=> navigation.navigate('newPaymentMethod')}
                     style={{
                         backgroundColor: color.base,
                         width: "100%",
@@ -195,4 +195,4 @@ function CardOptions({selectedCard, setShowCardOptions, closeCardOptions}){
 
 
 
-export default PaymentSettingsMain;
+export default Index;

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image} from "react-native";
-import { SessionProvider } from "../../../providers/sessionProvider";
+import { SessionProvider } from "../../providers/sessionProvider";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useCurrentUser } from "../../../providers/sessionProvider";
-import { supabase } from "../../../supabase";
+import { useCurrentUser } from "../../providers/sessionProvider";
+import { supabase } from "../../supabase";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
-import color from "../../../constants/colors";
+import color from "../../constants/colors";
 
 function EditLanguage(){
     const navigation = useNavigation()
@@ -16,13 +16,13 @@ function EditLanguage(){
     const [languageList, setLanguageList] = useState([
         {
             name: 'en',
-            icon: <Image source={require('../../../assets/Images/Icons/united-kingdom.png')} style={{height: 40, width: 40}} />
+            icon: <Image source={require('../../assets/Images/Icons/united-kingdom.png')} style={{height: 40, width: 40}} />
         },
         {
             name: 'fr',
-            icon: <Image source={require('../../../assets/Images/Icons/france.png')} style={{height: 40, width: 40}}  />
+            icon: <Image source={require('../../assets/Images/Icons/france.png')} style={{height: 40, width: 40}}  />
         }
-    ]) //a state including all the available languages for our app
+    ])
 
     useEffect(()=>{
     }, [])

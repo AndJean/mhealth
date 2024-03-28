@@ -19,22 +19,19 @@ function Splash() {
       //redirect to onBoarding screens
       navigation.replace("onBoarding");
     } else {
-      
-    //we will check if the user has already a type "patient or doctor"
-    const getUser = await supabase.from('profiles').select('*').eq('id', fetch.data.session.user.id)
-    if(getUser.error){
-        console.log(getUser.error.message)
-    }else{
-        setUser(getUser.data[0])
-        const type = getUser.data[0].type
-        if(type){
-          navigation.replace("main");
-        }else{
-          navigation.replace("register_step3");
-        }
-    }
-
-      //navigation.replace("main")
+      //we will check if the user has already a type "patient or doctor"
+      const getUser = await supabase.from('profiles').select('*').eq('id', fetch.data.session.user.id)
+      if(getUser.error){
+          console.log(getUser.error.message)
+      }else{
+          setUser(getUser.data[0])
+          const type = getUser.data[0].type
+          if(type){
+            navigation.replace('authStack', {screen: 'main'})
+          }else{
+            navigation.replace("register_step3");
+          }
+      }
     }
   }
 

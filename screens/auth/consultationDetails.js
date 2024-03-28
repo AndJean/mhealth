@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import {Ionicons} from '@expo/vector-icons'
 import { useCurrentUser } from '../../providers/sessionProvider'
-import { DoctorCategoryIcon } from './consultation';
+import { DoctorCategoryIcon } from './main/consultationStack';
 import { supabase } from '../../supabase';
 import moment from 'moment';
 import color from '../../constants/colors';

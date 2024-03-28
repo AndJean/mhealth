@@ -2,17 +2,17 @@
 
 import { View, Text, StatusBar, ToastAndroid, Image, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
 import { useTranslation } from "react-i18next";
-import color from "../../constants/colors";
-import { useCurrentUser } from "../../providers/sessionProvider";
+import color from "../../../../constants/colors";
+import { useCurrentUser } from "../../../../providers/sessionProvider";
 import * as ImagePicker from 'expo-image-picker'
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { supabase } from "../../supabase";
+import { supabase } from "../../../../supabase";
 import * as FileSystem from 'expo-file-system'
 import { decode } from 'base64-arraybuffer'
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 
-function Profile() {
+function Index() {
   const {t} = useTranslation()
   const {user} = useCurrentUser() //a const to get all the states and the function passed by the session provider
   const navigation = useNavigation()
@@ -63,7 +63,7 @@ function Profile() {
       <View style={{flex:1, backgroundColor:color.base, borderTopLeftRadius:45,borderTopRightRadius:45, paddingTop: 20, paddingHorizontal: 15}}>
          <ScrollView showsVerticalScrollIndicator={false} bounces={false} overScrollMode="never">
             {/**profile informations container */}
-            <TouchableOpacity onPress={()=> navigation.navigate('editProfileMain')} style={{flexDirection:"row", width:'100%', height: 64, marginBottom:20, padding: 3}}> 
+            <TouchableOpacity onPress={()=> navigation.navigate('editProfile')} style={{flexDirection:"row", width:'100%', height: 64, marginBottom:20, padding: 3}}> 
               {/**Inicon on the left, inside profile informations container */}   
               <View style={{width:'20%', height:'100%', alignItems: 'center', justifyContent: 'center'}} >
                   <View style={{backgroundColor: 'rgb(219, 219, 219)', height: '100%', width: '80%', borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
@@ -105,7 +105,7 @@ function Profile() {
               </View>
             </TouchableOpacity>
             {/**Big container Payment setting */}
-            <TouchableOpacity onPress={()=> navigation.navigate('paymentSettingsMain')} style={{flexDirection:"row", width:'100%', height: 64, marginBottom:20, padding: 3}}> 
+            <TouchableOpacity onPress={()=> navigation.navigate('paymentSettings')} style={{flexDirection:"row", width:'100%', height: 64, marginBottom:20, padding: 3}}> 
               {/**Inicon on the left, inside Big container */}   
               <View style={{width:'20%', height:'100%', alignItems: 'center', justifyContent: 'center'}} >
                   <View style={{backgroundColor: 'rgb(219, 219, 219)', height: '100%', width: '80%', borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
@@ -246,4 +246,4 @@ function ProfilePic(){
   )
 }
 
-export default Profile;
+export default Index;

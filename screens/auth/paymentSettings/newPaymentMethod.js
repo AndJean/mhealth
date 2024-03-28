@@ -10,7 +10,7 @@ const valid = require("card-validator")
 import validator from 'validator';
 import {supabase} from '../../../supabase'
 
-function NewPaymentSettings(){
+function NewPaymentMethod(){
     const navigation = useNavigation()
     const { t } = useTranslation()
     const [cardType, setCardType] = useState(null)
@@ -397,13 +397,13 @@ export function CardIcon({cardType}){
     useEffect(()=>{
         switch (cardType) {
             case 'Visa':
-                setCardImage(<Image source={require(`../../../assets/Images/Icons/Visa.png`)} style={{height: 35, width: 35}} />)
+                setCardImage(<Image source={require(`../../../../assets/Images/Icons/Visa.png`)} style={{height: 35, width: 35}} />)
                 break;
             case 'Mastercard':
-                setCardImage(<Image source={require(`../../../assets/Images/Icons/Mastercard.png`)} style={{height: 35, width: 35}} />)
+                setCardImage(<Image source={require(`../../../../assets/Images/Icons/Mastercard.png`)} style={{height: 35, width: 35}} />)
                 break; 
             case 'American Express':
-                setCardImage(<Image source={require(`../../../assets/Images/Icons/American Express.png`)} style={{height: 35, width: 35}} />)
+                setCardImage(<Image source={require(`../../../../assets/Images/Icons/American Express.png`)} style={{height: 35, width: 35}} />)
                 break;       
             default: <View />
                 break;
@@ -420,4 +420,4 @@ export function CardIcon({cardType}){
         </View> 
     )
 }
-export default NewPaymentSettings;
+export default NewPaymentMethod;

@@ -1,18 +1,14 @@
 /** @format */
 
 import { useState, createContext, useContext, useEffect } from "react";
-import ConsultationReminderModal from "../components/modals/consultationReminderModal";
 import { supabase } from "../supabase";
 import moment from "moment";
+
 
 
 const SessionContext = createContext(null);
 export function SessionProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [showModal, setShowModal] = useState({
-    consultationReminder: false
-  })
-  const [consultations, setConsultations] = useState([])
 
   //function to get all user informations
   async function getUserInfos() {
@@ -33,49 +29,6 @@ export function SessionProvider({ children }) {
       });
     }
   }
-
-  async function getConsultations(){
-    //get all consultations with supabase
-    try {
-      let req = null
-      if(user.type === 'Patient'){
-        req = await supabase.from('consultations').select('*').eq('patient_id', user.id)
-      }else{
-        req = await supabase.from('consultations').select('*').eq('doctor_id', user.id)
-      }
-
-      if(req){
-        if(req.error){
-          throw Error(req.error.message)
-        }
-        setConsultations(req.data)        
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function getScheduledConsultations(){
-    consultations.map((consultation, index)=> {
-      const currentDate = new Date()
-      const currentHour = moment().hour()+'h'
-      const consultationDate = new Date(consultation.date.appointmentDate)
-      const consultationHour = consultation.date.appointmentTime
-
-      if(currentDate.toLocaleDateString() === consultationDate.toLocaleDateString() && currentHour === consultationHour){
-        setShowModal(prev => ({...prev, consultationReminder: true}))
-      }
-
-      console.log(consultation)
-    })
-  }
-
-  //get all the consultations
-  useEffect(()=>{
-    if(consultations.length === 0 && user){
-      getConsultations()        
-    }
-  }, [user])
 
   //executed once when the user is connected
   useEffect(() => {
@@ -98,13 +51,6 @@ export function SessionProvider({ children }) {
       getUserInfos()      
     }
   }, [user])
-
-  //check inside the consultations array if there is one corresponding to the actual hour and date
-  useEffect(()=>{
-    if(consultations.length > 0 && user){
-      getScheduledConsultations()      
-    }
-  }, [consultations])
 
 
   return (
